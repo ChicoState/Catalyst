@@ -6,6 +6,7 @@ WORKDIR /catalyst
 
 # Copy package.json and package-lock.json (if applicable)
 COPY package*.json ./
+COPY package-lock.json ./
 
 # Install project dependencies
 RUN npm install
