@@ -1,23 +1,41 @@
 import logo from './logo.svg';
 import './App.css';
 
+import React, { useState } from 'react';
+
 function App() {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div>
+    <header className="Catalyst">
+      <div className="App-header">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Welcome to Catalyst!
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <p style={{ fontSize: '22px' }}>
+          Please tell us about your goals.
+        </p>
+      </div>
+    </header>
+
+      <div className="Questionaire">
+        <div className="Question">
+          <p>
+            What is your name?
+          </p>
+          <input
+            type="text"
+            value={userName}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
     </div>
   );
 }
