@@ -51,7 +51,7 @@ function App() {
           </div>
         </header>
         <div className = "Form">
-          <div className="Questionaire">
+          <div className="Questionnaire">
             <div className="Question">
               <p>What is your name?</p>
               <input className='NameForm'

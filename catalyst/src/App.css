@@ -13,7 +13,7 @@ body{
   pointer-events: none;
 }
 
-.Questionaire{
+.Questionnaire{
   display: flex;
   flex-direction: column;
   justify-content: center;
