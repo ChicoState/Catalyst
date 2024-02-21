@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import './App.css';
 
 //dropdown menu options
@@ -37,8 +38,7 @@ function App() {
       skill: selectedSkill,
       time: selectedTime
     };
-    // placeholder for functionality of the button being clicked
-    console.log("Button clicked!");
+    //history.push('/Createaccount.js');
   };
 
   return (
