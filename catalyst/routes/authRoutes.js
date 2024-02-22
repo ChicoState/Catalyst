@@ -44,18 +44,24 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
+
+        // Find the user in the database by email
         let user = await User.findOne({ email });
 
+        // If the user is not found, return an error
         if (!user) {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
 
+        // Compare the provided password with the hashed password stored in the database
         const isMatch = await bcrypt.compare(password, user.password);
 
+        // If the passwords don't match, return an error
         if (!isMatch) {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
 
+        // If the credentials are valid, create a JSON Web Token (JWT) for authentication
         const payload = {
             user: {
                 id: user.id
@@ -71,5 +77,6 @@ router.post('/login', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
 
 module.exports = router;

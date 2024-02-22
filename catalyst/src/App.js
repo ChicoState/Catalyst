@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
+
+
+
 function App() {
     const [usernameReg, setUsernameReg] = useState('');
     const [emailReg, setEmailReg] = useState('');
@@ -30,41 +33,77 @@ function App() {
         setPasswordLogin(event.target.value);
     };
 
-    const handleRegisterButtonClick = async () => {
+    const handleRegisterButtonClick = () => {
+        // Call the registerUser function or perform any other functionality
+        registerUser();
+        console.log("Register Button clicked! User details:", { usernameReg, emailReg, passwordReg });
+    };
+
+    const handleLoginButtonClick = () => {
+        // Call the loginUser function or perform any other functionality
+        loginUser();
+        console.log("Login Button clicked! User details:", { emailLogin, passwordLogin });
+    };
+
+    const registerUser = async () => {
         try {
-            const response = await axios.post('your_backend_register_endpoint', {
+            const response = await axios.post("http://localhost:3000/register", {
                 username: usernameReg,
                 email: emailReg,
                 password: passwordReg,
             });
+    
+            // Handle the response from the server as needed
             console.log('User Registered:', response.data);
         } catch (error) {
-            console.error('Registration Failed:', error.response.data);
+            console.error('Error registering user:', error.message);
         }
     };
+    
 
-    const handleLoginButtonClick = async () => {
-        try {
-            const response = await axios.post('your_backend_login_endpoint', {
-                email: emailLogin,
-                password: passwordLogin,
-            });
-            console.log('User Logged In:', response.data);
-        } catch (error) {
-            console.error('Login Failed:', error.response.data);
-        }
+    const loginUser = () => {
+        // Placeholder for login functionality
+        console.log('User Logged In:', { emailLogin, passwordLogin });
     };
 
     return (
         <div>
             <div>
                 <h2>Register</h2>
-                {/* ... (same as before) */}
+                <p>User name</p>
+                <input
+                    type="text"
+                    value={usernameReg}
+                    onChange={handleRegUserNameChange}
+                />
+                <p>Email</p>
+                <input
+                    type="text"
+                    value={emailReg}
+                    onChange={handleRegEmailChange}
+                />
+                <p>Password</p>
+                <input
+                    type="password"
+                    value={passwordReg}
+                    onChange={handleRegPasswordChange}
+                />
                 <button onClick={handleRegisterButtonClick}>Register</button>
             </div>
             <div>
                 <h2>Login</h2>
-                {/* ... (same as before) */}
+                <p>Email</p>
+                <input
+                    type="text"
+                    value={emailLogin}
+                    onChange={handleLoginEmailChange}
+                />
+                <p>Password</p>
+                <input
+                    type="password"
+                    value={passwordLogin}
+                    onChange={handleLoginPasswordChange}
+                />
                 <button onClick={handleLoginButtonClick}>Login</button>
             </div>
         </div>

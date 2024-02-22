@@ -1,7 +1,11 @@
 // Import necessary modules
 const express = require('express');
 const mongoose = require('mongoose');
+const authRoutes = require('../routes/authRoutes');
 require('dotenv').config();
+
+
+const DB_URI = process.env.DB_URI;
 
 // Create Express application
 const app = express();
@@ -9,8 +13,9 @@ const app = express();
 // Middleware setup
 app.use(express.json());
 
+
 // Database connection
-mongoose.connect(process.env.DB_URI, {
+mongoose.connect(DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -25,14 +30,26 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
+app.post('/register', async (req, res) => {
+    const { username, email, password } = req.body;
 
-const authRoutes = require('./routes/authRoutes');
+    try {
+        const user = new User({ username, email, password });
+        await user.save();
+        res.status(201).json({ message: 'User registered successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+
 
 // Middleware
 app.use('/api/user', authRoutes);
 
 // server.js or routes/auth.js
-const express = require('express');
+
 const router = express.Router();
 
 // Define route for user registration
