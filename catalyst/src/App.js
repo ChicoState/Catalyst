@@ -13,6 +13,10 @@ function App() {
     const [emailLogin, setEmailLogin] = useState('');
     const [passwordLogin, setPasswordLogin] = useState('');
 
+    const [registrationMessage, setRegistrationMessage] = useState('');
+    const [loginMessage, setLoginMessage] = useState('');
+    const [loggedInUsername, setLoggedInUsername] = useState('');
+
     const handleRegUserNameChange = (event) => {
         setUsernameReg(event.target.value);
     };
@@ -33,37 +37,53 @@ function App() {
         setPasswordLogin(event.target.value);
     };
 
-    const handleRegisterButtonClick = () => {
-        // Call the registerUser function or perform any other functionality
-        registerUser();
-        console.log("Register Button clicked! User details:", { usernameReg, emailReg, passwordReg });
-    };
-
-    const handleLoginButtonClick = () => {
-        // Call the loginUser function or perform any other functionality
-        loginUser();
-        console.log("Login Button clicked! User details:", { emailLogin, passwordLogin });
-    };
-
-    const registerUser = async () => {
+    const handleRegisterButtonClick = async () => {
         try {
             const response = await axios.post("http://localhost:3000/register", {
                 username: usernameReg,
                 email: emailReg,
                 password: passwordReg,
             });
-    
-            // Handle the response from the server as needed
-            console.log('User Registered:', response.data);
+
+            // Set the registration message
+            setRegistrationMessage(`User ${usernameReg} created successfully!`);
         } catch (error) {
             console.error('Error registering user:', error.message);
+            setRegistrationMessage('Error registering user. Please try again.');
         }
     };
-    
 
-    const loginUser = () => {
-        // Placeholder for login functionality
-        console.log('User Logged In:', { emailLogin, passwordLogin });
+    const handleLoginButtonClick = () => {
+        try{
+            loginUser(); 
+            // Set the log in message
+            setLoginMessage(`User ${loggedInUsername} logged in successfully!`);
+
+
+        } catch (error) {
+            console.error('Error logging in user:', error.message);
+            setLoginMessage('Error loging in user. Please try again.');
+        }
+    };
+
+    const loginUser = async () => {
+        try {
+            const response = await axios.post("http://localhost:3000/login", {
+                email: emailLogin,
+                password: passwordLogin,
+            });
+
+            // Handle the response from the server as needed
+            console.log('User Logged In:', response.data);
+
+            // You can set a success message or perform other actions
+            setLoginMessage('User logged in successfully!');
+        } catch (error) {
+            console.error('Error logging in user:', error.message);
+
+            // Handle the error and set an error message
+            setLoginMessage('Error logging in user. Please check your credentials and try again.');
+        }
     };
 
     return (
@@ -89,6 +109,7 @@ function App() {
                     onChange={handleRegPasswordChange}
                 />
                 <button onClick={handleRegisterButtonClick}>Register</button>
+                {registrationMessage && <p>{registrationMessage}</p>}
             </div>
             <div>
                 <h2>Login</h2>
@@ -105,6 +126,7 @@ function App() {
                     onChange={handleLoginPasswordChange}
                 />
                 <button onClick={handleLoginButtonClick}>Login</button>
+                {loginMessage && <p>{loginMessage}</p>}
             </div>
         </div>
     );
