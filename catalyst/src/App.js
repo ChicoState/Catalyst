@@ -45,46 +45,44 @@ function App() {
                 password: passwordReg,
             });
 
-            // Set the registration message
-            setRegistrationMessage(`User ${usernameReg} created successfully!`);
+            const newUser = response.data;
+
+            const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '5h' });
+            // Store the user details in the state
+            setUser(newUser);
+            setRegistrationMessage(`User ${newUser.username} created successfully!`);
+            setToken(token);
+
+
+            <Redirect to="/Questionnaire" />;
         } catch (error) {
             console.error('Error registering user:', error.message);
             setRegistrationMessage('Error registering user. Please try again.');
         }
     };
 
-    const handleLoginButtonClick = () => {
-        try{
-            loginUser(); 
-            // Set the log in message
-            setLoginMessage(`User ${loggedInUsername} logged in successfully!`);
-
-
-        } catch (error) {
-            console.error('Error logging in user:', error.message);
-            setLoginMessage('Error loging in user. Please try again.');
-        }
-    };
-
-    const loginUser = async () => {
+    const handleLoginButtonClick = async () => {
         try {
             const response = await axios.post("http://localhost:3000/login", {
                 email: emailLogin,
                 password: passwordLogin,
             });
-
-            // Handle the response from the server as needed
-            console.log('User Logged In:', response.data);
-
-            // You can set a success message or perform other actions
-            setLoginMessage('User logged in successfully!');
+    
+            const loggedInUser = response.data;
+    
+            const token = jwt.sign({ userId: loggedInUser._id }, process.env.JWT_SECRET, { expiresIn: '5h' });
+            setUser(loggedInUser);
+            setLoginMessage(`User ${loggedInUser.username} logged in successfully!`);
+            setToken(token);
+    
+            // Redirect to "/Questionnaire" after successful login
+            history.push("/Questionnaire"); // Assuming you have access to the 'history' object
         } catch (error) {
             console.error('Error logging in user:', error.message);
-
-            // Handle the error and set an error message
             setLoginMessage('Error logging in user. Please check your credentials and try again.');
         }
     };
+    
 
     return (
         <div>

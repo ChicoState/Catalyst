@@ -7,38 +7,41 @@ require('dotenv').config();
 const router = express.Router();
 
 // Registration endpoint
-router.post('/register', async (req, res) => {
-    try {
-        const { username, email, password } = req.body;
-        let user = await User.findOne({ email });
+// Assuming you have a User model defined using Mongoose
+const User = require('./models/User');
+const bcrypt = require('bcryptjs');
 
-        if (user) {
-            return res.status(400).json({ msg: 'User already exists' });
+app.post('/register', async (req, res) => {
+    const { username, email, password } = req.body;
+
+    try {
+        // Check if the user with the given email already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ error: 'User with this email already exists' });
         }
 
-        user = new User({
+        // Hash the password before saving it to the database
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create a new user object
+        const newUser = new User({
             username,
             email,
-            password,
+            password: hashedPassword,
         });
 
-        await user.save();
+        // Save the user object to the database
+        const savedUser = await newUser.save();
 
-        const payload = {
-            user: {
-                id: user.id
-            }
-        };
-
-        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '5h' }, (err, token) => {
-            if (err) throw err;
-            res.json({ token });
-        });
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server error');
+        // Respond with a success message and the saved user object
+        res.status(201).json(savedUser);
+    } catch (error) {
+        console.error('Error registering user:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 // Login endpoint
 router.post('/login', async (req, res) => {
