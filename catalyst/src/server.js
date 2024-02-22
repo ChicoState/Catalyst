@@ -42,9 +42,6 @@ app.post('/register', async (req, res) => {
     }
 });
 
-
-
-
 // Middleware
 app.use('/api/user', authRoutes);
 
