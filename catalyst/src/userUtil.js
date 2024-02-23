@@ -1,5 +1,4 @@
 // userUtils.js
-
 let currentUser = null;
 
 export const setUser = (user) => {
@@ -12,4 +11,13 @@ export const getUser = () => {
 
 export const clearUser = () => {
   currentUser = null;
+};
+
+export const updateUserFromQuestionnaire = (actualName, skill, time) => {
+  if (currentUser) {
+    currentUser.actualName = actualName;
+    currentUser.skill = skill;
+    currentUser.time = time;
+    currentUser.takenQuestionnaire = true;
+  }
 };

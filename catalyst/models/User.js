@@ -20,6 +20,18 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    actualName: {
+        type: String,
+        default: "",
+    },
+    skill: {
+        type: String,
+        default: "",
+    },
+    time: {
+        type: Int, 
+        default: 0,
+    }
 });
 
 const User = mongoose.model('User', userSchema);
