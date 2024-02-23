@@ -1,45 +1,53 @@
-import React, { useState } from 'react';
 
-import './App.css';
-
-//dropdown menu options
-const goalObject = {
-  "Skill 1": {},
-  "Skill 2": {}
-};
-
-const timeObject = {
-  "1-5": {},
-  "6-10": {}
-};
-
-function Questionnaire() {
-  const [person, setPerson] = useState('');
-  const [selectedSkill, setSelectedSkill] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-
-  const handleInputChange = (event) => {
-    setPerson(event.target.value);
+  // Questionnaire.js
+  import React, { useState } from 'react';
+  import { setUser, updateUserFromQuestionnaire } from './userUtil'; // Import the utility functions
+  
+  import './App.css';
+  
+  // dropdown menu options
+  const goalObject = {
+    "Skill 1": {},
+    "Skill 2": {}
   };
-
-  const handleSkillChange = (event) => {
-    setSelectedSkill(event.target.value);
-    setSelectedTime(''); // Reset selected time when skill changes
+  
+  const timeObject = {
+    "1-5": {},
+    "6-10": {}
   };
-
-  const handleTimeChange = (event) => {
-    setSelectedTime(event.target.value);
-  };
-
-  const handleButtonClick = () => {
-    //saves the users selections when the button is clicked
-    const userSelections = {
-      name: person,
-      skill: selectedSkill,
-      time: selectedTime
+  
+  function Questionnaire() {
+    const [person, setPerson] = useState('');
+    const [selectedSkill, setSelectedSkill] = useState('');
+    const [selectedTime, setSelectedTime] = useState('');
+  
+    const handleInputChange = (event) => {
+      setPerson(event.target.value);
     };
-    //history.push('/Createaccount.js');
-  };
+  
+    const handleSkillChange = (event) => {
+      setSelectedSkill(event.target.value);
+      setSelectedTime(''); // Reset selected time when skill changes
+    };
+  
+    const handleTimeChange = (event) => {
+      setSelectedTime(event.target.value);
+    };
+  
+    const handleButtonClick = () => {
+      //saves the users selections when the button is clicked
+      const userSelections = {
+        name: person,
+        skill: selectedSkill,
+        time: selectedTime
+      };
+  
+      // Update the user object with the selections
+      setUser(userSelections);
+  
+      // Update user information from the questionnaire
+      updateUserFromQuestionnaire(userSelections.name, userSelections.skill, userSelections.time);
+    };
 
   return (
     <body>
@@ -90,5 +98,7 @@ function Questionnaire() {
     </body>
   );
 }
+
+export default Questionnaire;
 
 
