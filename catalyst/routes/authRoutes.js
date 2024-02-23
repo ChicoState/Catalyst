@@ -36,6 +36,7 @@ app.post('/register', async (req, res) => {
 
         // Respond with a success message and the saved user object
         res.status(201).json(savedUser);
+     
     } catch (error) {
         console.error('Error registering user:', error.message);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -75,10 +76,13 @@ router.post('/login', async (req, res) => {
             if (err) throw err;
             res.json({ token });
         });
+
+        
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
+
 });
 
 
