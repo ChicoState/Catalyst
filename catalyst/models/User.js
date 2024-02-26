@@ -1,7 +1,7 @@
-// models/User.js
+// this file is analgous to a .h file in c++, it defines the user class
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 
+//defines attributes of a user, this will be saved to the mongo databse
 const userSchema = new mongoose.Schema({
     username: {
         type: String,

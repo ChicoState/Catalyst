@@ -4,20 +4,19 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 require('dotenv').config();
 
+// This file defines endpoints for user registration and login
 const router = express.Router();
 
-// Registration endpoint
-// Assuming you have a User model defined using Mongoose
-const User = require('./models/User');
-const bcrypt = require('bcryptjs');
-
-app.post('/register', async (req, res) => {
+router.post('/register', async (req, res) => {
     const { username, email, password } = req.body;
-
+    
     try {
+        console.log('Received registration request:', req.body);
+
         // Check if the user with the given email already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
+            console.log('User with this email already exists:', email);
             return res.status(400).json({ error: 'User with this email already exists' });
         }
 
@@ -34,6 +33,8 @@ app.post('/register', async (req, res) => {
         // Save the user object to the database
         const savedUser = await newUser.save();
 
+        console.log('User registered successfully:', savedUser);
+
         // Respond with a success message and the saved user object
         res.status(201).json(savedUser);
      
@@ -44,13 +45,13 @@ app.post('/register', async (req, res) => {
 });
 
 
-// Login endpoint
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
         // Find the user in the database by email
         let user = await User.findOne({ email });
+        
 
         // If the user is not found, return an error
         if (!user) {
@@ -77,13 +78,10 @@ router.post('/login', async (req, res) => {
             res.json({ token });
         });
 
-        
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
-
 });
-
 
 module.exports = router;
