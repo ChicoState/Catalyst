@@ -1,0 +1,4 @@
+ccache
+numpy==>1.26.4
+llama-cpp-python==>0.2.50
+pytest fastapi[testclient]
