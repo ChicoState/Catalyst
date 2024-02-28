@@ -1,7 +1,5 @@
-// this file is analgous to a .h file in c++, it defines the user class
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-//defines attributes of a user, this will be saved to the mongo databse
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -29,11 +27,11 @@ const userSchema = new mongoose.Schema({
         default: "",
     },
     time: {
-        type: Int, 
+        type: Number,  // Corrected to "Number" from "Int"
         default: 0,
     }
 });
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+export default User;

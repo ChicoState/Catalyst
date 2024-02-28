@@ -1,7 +1,7 @@
 
   // Questionnaire.js
   import React, { useState } from 'react';
-  import { setUser, updateUserFromQuestionnaire } from './userUtil'; // Import the utility functions
+  import { setUser, updateUserFromQuestionnaire } from './userUtil.js'; // Import the utility functions
   import './Main.css';
   import './Questionnaire.css';
   
@@ -57,7 +57,7 @@
     };
 
   return (
-    <body>
+    
       <div className="Homepage">
         <header className="WelcomeHeader">
           <div className="Welcome">
@@ -102,7 +102,7 @@
           </div>
         </div>
       </div>
-    </body>
+    
   );
 }
 
