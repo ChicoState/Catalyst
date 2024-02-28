@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Main.css';
 import './Login.css';
-import { useNavigate, Routes, Route, Link } from 'react-router-dom';
+import { useNavigate, Routes, Route} from 'react-router-dom';
 import Questionnaire from './Questionnaire.js';
 
 function Login() {
@@ -15,7 +15,7 @@ function Login() {
     const [registrationMessage, setRegistrationMessage] = useState('');
     const [loginMessage, setLoginMessage] = useState('');
     const [user, setUser] = useState(null);
-    const [token, setToken] = useState('');
+
 
     const handleRegUserNameChange = (event) => {
         setUsernameReg(event.target.value);
