@@ -6,11 +6,6 @@ require('dotenv').config();
 
 const router = express.Router();
 
-// Registration endpoint
-// Assuming you have a User model defined using Mongoose
-const User = require('./models/User');
-const bcrypt = require('bcryptjs');
-
 app.post('/register', async (req, res) => {
     const { username, email, password } = req.body;
 
@@ -35,7 +30,7 @@ app.post('/register', async (req, res) => {
         const savedUser = await newUser.save();
 
         // Respond with a success message and the saved user object
-        res.status(201).json(savedUser);
+        res.status(201).json({ message: 'User registered successfully' });
      
     } catch (error) {
         console.error('Error registering user:', error.message);
@@ -46,9 +41,9 @@ app.post('/register', async (req, res) => {
 
 // Login endpoint
 router.post('/login', async (req, res) => {
-    try {
-        const { email, password } = req.body;
+    const { email, password } = req.body;
 
+    try {
         // Find the user in the database by email
         let user = await User.findOne({ email });
 
