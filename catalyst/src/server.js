@@ -17,7 +17,6 @@ mongoose.connect(DB_URI, {
     .catch((err) => console.error('Failed to connect to MongoDB', err));
 
 
-
 // Bind routes
 app.use('/api/user', authRoutes);
 
