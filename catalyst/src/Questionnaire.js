@@ -2,13 +2,11 @@
   // Questionnaire.js
   import React, { useState } from 'react';
   import { setUser, updateUserFromQuestionnaire } from './userUtil'; // Import the utility functions
-  import {createPlan} from './gemini';
-
   import './App.css';
-  console.log(process.env.REACT_APP_API_KEY)
-  
-  const Skill = require("./models/Skill")
-  const Task = require("./models/Task")
+
+  const createPlan = require( './gemini' );  
+  const Skill = require("./models/Skill");
+  const Task = require("./models/Task");
 
   // dropdown menu options
   const goalObject = {
@@ -42,17 +40,13 @@
   
     const handleButtonClick = () => {
       //saves the users selections when the button is clicked
-      const userSelections = {
-        name: person,
-        skill: selectedSkill,
-        time: selectedTime
-      };
+      const new_skill = new Skill( selectedSkill, selectedTime) ;
   
-      // Update the user object with the selections
-      setUser(userSelections);
-  
-      // Update user information from the questionnaire
-      updateUserFromQuestionnaire(userSelections.name, userSelections.skill, userSelections.time);
+      const task_list = createPlan(new_skill);
+
+      console.log(task_list);
+
+
     };
 
   return (

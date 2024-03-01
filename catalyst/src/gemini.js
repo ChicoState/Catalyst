@@ -19,6 +19,12 @@ function parseTasksToJsonObjects(taskJsonString) {
 
 async function createPlan(new_skill) {
   // For text-only input, use the gemini-pro model
+
+  // Conduct an object check
+  if (!(new_skill instanceof Skill)) {
+    console.log("Object passed to createPlan is not of type Skill");
+  }
+
   const model = genAI.getGenerativeModel({ model: "gemini-pro"});
   let task_example = new Task();
 
