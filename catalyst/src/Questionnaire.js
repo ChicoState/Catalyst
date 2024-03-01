@@ -5,97 +5,80 @@
   import './App.css';
 
   const createPlan = require( './gemini' );  
-  const Skill = require("./models/Skill");
   const Task = require("./models/Task");
-
-  // dropdown menu options
-  const goalObject = {
-    "Skill 1": {},
-    "Skill 2": {}
-  };
-  
-  const timeObject = {
-    "1-5": {},
-    "6-10": {}
-  };
   
   function Questionnaire() {
 
-    const [person, setPerson] = useState('');
-    const [selectedSkill, setSelectedSkill] = useState('');
-    const [selectedTime, setSelectedTime] = useState('');
-  
-    const handleInputChange = (event) => {
-      setPerson(event.target.value);
-    };
-  
-    const handleSkillChange = (event) => {
-      setSelectedSkill(event.target.value);
-      setSelectedTime(''); // Reset selected time when skill changes
-    };
-  
-    const handleTimeChange = (event) => {
-      setSelectedTime(event.target.value);
-    };
-  
-    const handleButtonClick = () => {
-      //saves the users selections when the button is clicked
-      const new_skill = new Skill( selectedSkill, selectedTime) ;
-  
-      const task_list = createPlan(new_skill);
+    // Initialized a single state object for all responses
+    const [responses, setResponses] = useState([]);
 
-      console.log(task_list);
+  // Define your question configuration
+  const questions = [
 
+    {
+      type: 'text', questionText: 'Describe the skill you would like to pursue:'
+    },
+    {
+      type: 'select', 
+      questionText: 'How many hours per week would you like to spend improving this skill?', 
+      options: ['1-10', '11-20', '21-30', '31+'],
+    },
+    {
+      type: 'select',
+      questionText: 'What is your current experience level at this task?',
+      options: ["Beginner", "Intermediate", "Experienced"],
+    },
+    {
+      type: 'text', questionText: 'Is there a specific area that you would like to focus on?' },
 
-    };
+  ];
+
+  // Update the state based on input changes
+  const handleChange = (index, questionText, value) => {
+    setResponses((prevResponses) => { 
+      const newResponses = [...prevResponses];    // Copies the previous responses into a new object
+      newResponses[index] = [questionText, value];
+      return newResponses;
+    });
+  };
+
+  // Handle button click
+  const handleButtonClick = async () => {
+    // Construct a new Skill object with the responses
+    const task_list = await createPlan(responses);
+    console.log(task_list);
+
+    // If you need to iterate through responses and place them into a string
+    //const responseString = JSON.stringify(responses);
+    //console.log(responseString);
+  };
 
   return (
-    <body>
-      <div className="Homepage">
-        <header className="WelcomeHeader">
-          <div className="Welcome">
-            <h1>Welcome to Catalyst!</h1>
-            <h3>Please tell us about your goals.</h3>
-          </div>
-        </header>
-        <div className = "Form">
-          <div className="Questionnaire">
-            <div className="Question">
-              <p>What is your name?</p>
-              <input className='NameForm'
-                type="text"
-                value={person}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="Question">
-              <p>Which skill would you like to learn?</p>
-              <select name="skill" id="skill" onChange={handleSkillChange} value={selectedSkill}>
-                <option value="" disabled>Select skill</option>
-                {Object.keys(goalObject).map((skill) => (
-                  <option key={skill} value={skill}>{skill}</option>
-                ))}
-              </select>
-            </div>
-            <div className="Question">
-              <p>How many hours per week do you want to spend on the skill?</p>
-              <select name="time" id="time" onChange={handleTimeChange} value={selectedTime}>
-                <option value="" disabled>Select time</option>
-                {Object.keys(timeObject).map((time) => (
-                  <option key={time} value={time}>{time}</option>
-                ))}
-              </select>
-            </div>
-            
-          </div>
-          <div className="ButtonContainer">
-            <button className="SubmitButton" onClick={handleButtonClick}>
-              <span className='ButtonText'>Continue</span>
-            </button>
-          </div>
+    <div className="Questionnaire">
+      {questions.map((question, index) => (
+        <div className="Question" key={index}>
+          <p>{question.questionText}</p>
+          {question.type === 'text' ? (
+            <input
+              type="text"
+              value={responses[index] ? responses[index][1]: ''}
+              onChange={(e) => handleChange(index, question.questionText, e.target.value)}
+            />
+          ) : (
+            <select
+              value={responses[index] ? responses[index][1]: ''}
+              onChange={(e) => handleChange(index, question.questionText, e.target.value)}
+            >
+              <option value="" disabled>Select...</option>
+              {question.options.map((option) => (
+                <option key={option} value={option}>{option}</option>
+              ))}
+            </select>
+          )}
         </div>
-      </div>
-    </body>
+      ))}
+      <button onClick={handleButtonClick}>Continue</button>
+    </div>
   );
 }
 
