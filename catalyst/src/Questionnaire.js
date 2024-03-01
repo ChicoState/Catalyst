@@ -2,9 +2,14 @@
   // Questionnaire.js
   import React, { useState } from 'react';
   import { setUser, updateUserFromQuestionnaire } from './userUtil'; // Import the utility functions
-  
+  import {createPlan} from './gemini';
+
   import './App.css';
+  console.log(process.env.REACT_APP_API_KEY)
   
+  const Skill = require("./models/Skill")
+  const Task = require("./models/Task")
+
   // dropdown menu options
   const goalObject = {
     "Skill 1": {},
@@ -18,7 +23,6 @@
   
   function Questionnaire() {
 
-    
     const [person, setPerson] = useState('');
     const [selectedSkill, setSelectedSkill] = useState('');
     const [selectedTime, setSelectedTime] = useState('');
