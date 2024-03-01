@@ -3,11 +3,13 @@
   import React, { useState } from 'react';
   import { setUser, updateUserFromQuestionnaire } from './userUtil'; // Import the utility functions
   import './App.css';
+  import { useNavigate } from 'react-router-dom';
 
   const createPlan = require( './gemini' );  
   const Task = require("./models/Task");
   
   function Questionnaire() {
+    const navigate = useNavigate();
 
     // Initialized a single state object for all responses
     const [responses, setResponses] = useState([]);
@@ -46,11 +48,13 @@
   const handleButtonClick = async () => {
     // Construct a new Skill object with the responses
     const task_list = await createPlan(responses);
-    console.log(task_list);
+    
+    sessionStorage.setItem('taskList', JSON.stringify(task_list));
 
-    // If you need to iterate through responses and place them into a string
-    //const responseString = JSON.stringify(responses);
-    //console.log(responseString);
+    setTimeout(() => {
+      navigate("/display-tasks");
+  }, 100);
+    
   };
 
   return (

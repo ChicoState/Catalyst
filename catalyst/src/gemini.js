@@ -1,5 +1,14 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Initial Author: Lucas Butler
+//  Date: Mar 1, '24
+//  Description:    
+//      This .js file takes in a questionnaire and uses prompt engineering and 
+//  the gemini API to create a list of task objects for the user to complete.
+//
+////////////////////////////////////////////////////////////////////////////////
+
 const { GoogleGenerativeAI } = require("@google/generative-ai")
-  
 const Task = require("./models/Task");
 const { type } = require("@testing-library/user-event/dist/type");
 
@@ -27,7 +36,6 @@ function validate_questionnaire_format(obj){
     if(!Number.isInteger(parseInt(key))){
         return false;
     }
-  
 
     // check if array is of size 2
     if( !Array.isArray(value) || value.length != 2 || !value.every(v => typeof v === 'string')){
@@ -73,6 +81,3 @@ async function createPlan(filled_questionnaire) {
 }
 
 module.exports = createPlan;
-
-//let skill = new Skill("Weight lifting", "40 minutes a day");
-//createPlan(skill);
