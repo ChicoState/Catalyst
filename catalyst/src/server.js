@@ -18,7 +18,6 @@ app.use(cors());
 // Middleware setup
 app.use(express.json());
 
-
 // Database connection
 mongoose.connect(DB_URI, {})
     .then(() => console.log('Connected to MongoDB'))
@@ -26,6 +25,7 @@ mongoose.connect(DB_URI, {})
 
 // Use authRoutes middleware
 app.use('/api', authRoutes);
+
 
 // Start the server
 const PORT = process.env.PORT || 4000;

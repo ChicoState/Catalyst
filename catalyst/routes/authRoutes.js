@@ -1,13 +1,13 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
-import dotenv from 'dotenv';
+import User from '../src/models/User.js';
 
 // This file defines endpoints for user registration and login
 const router = express.Router();
 
 router.post('/register', async (req, res) => {
+
     const { username, email, password } = req.body;
     
     try {
@@ -36,7 +36,7 @@ router.post('/register', async (req, res) => {
         console.log('User registered successfully:', savedUser);
 
         // Respond with a success message and the saved user object
-        res.status(201).json(savedUser);
+        res.status(201).json({ message: 'User registered successfully' });
      
     } catch (error) {
         console.error('Error registering user:', error.message);
@@ -46,9 +46,9 @@ router.post('/register', async (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-    try {
-        const { email, password } = req.body;
+    const { email, password } = req.body;
 
+    try {
         // Find the user in the database by email
         let user = await User.findOne({ email });
         

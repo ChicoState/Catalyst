@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Main.css';
+import './App.css';
 import './Login.css';
 import { useNavigate, Routes, Route} from 'react-router-dom';
-import Questionnaire from './Questionnaire.js';
 
 function Login() {
     const navigate = useNavigate();
@@ -46,13 +45,18 @@ function Login() {
             });
 
             const newUser = response.data;
+
+            // Store the user details in the state
             setUser(newUser);
             setRegistrationMessage(`User ${newUser.username} created successfully!`);
-            navigate("/Questionnaire");
+            setTimeout(() => {
+                navigate("/Questionnaire");
+            }, 100); 
         } catch (error) {
             console.error('Error registering user:', error.message);
             setRegistrationMessage('Error registering user. Please try again.');
-        }
+        }            
+
     };
 
     const handleLoginButtonClick = async () => {
@@ -76,9 +80,6 @@ function Login() {
 
     return (
         <div>
-            <Routes>
-                <Route path="/Questionnaire" element={<Questionnaire />} />
-            </Routes>
             <div>
                 <h2>Register</h2>
                 <p>User name</p>
