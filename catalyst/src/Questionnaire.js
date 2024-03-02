@@ -58,6 +58,14 @@
   };
 
   return (
+    <body>
+      <div className="Homepage">
+        <header className="WelcomeHeader">
+          <div className="Welcome">
+            <h1>Welcome to Catalyst!</h1>
+            <h3>Please tell us about your goals.</h3>
+          </div>
+        </header>
     <div className="Questionnaire">
       {questions.map((question, index) => (
         <div className="Question" key={index}>
@@ -83,6 +91,8 @@
       ))}
       <button onClick={handleButtonClick}>Continue</button>
     </div>
+    </div>
+    </body>
   );
 }
 
