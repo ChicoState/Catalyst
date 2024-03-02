@@ -1,7 +1,7 @@
 // Import the necessary modules
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import Login from './Login.js';
+import App from './App.js';
 import reportWebVitals from './reportWebVitals.js';
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ const root = createRoot(document.getElementById('root'));
 // Render your React components
 root.render(
     <Router>
-      <Login />
+      <App />
     </Router>
 );
 
