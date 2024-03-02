@@ -1,26 +1,33 @@
 
   // Questionnaire.js
   import React, { useState } from 'react';
-  import { setUser, updateUserFromQuestionnaire } from './userUtil'; // Import the utility functions
+  import { setUser, updateUserFromQuestionnaire } from './userUtil.js'; // Import the utility functions
+  import './Main.css';
+  import './Questionnaire.css';
   
-  import './App.css';
-  
-  // dropdown menu options
+  // dropdown goal menu options
+  // TODO: populate this with more skills
   const goalObject = {
     "Skill 1": {},
     "Skill 2": {}
   };
   
+  //hours available to spend drop menu options
   const timeObject = {
     "1-5": {},
-    "6-10": {}
+    "6-10": {},
+    "11-15": {},
+    "16-20": {},
+    "More than 20" : {}
   };
   
   function Questionnaire() {
+    //creating variables that will be used later
     const [person, setPerson] = useState('');
     const [selectedSkill, setSelectedSkill] = useState('');
     const [selectedTime, setSelectedTime] = useState('');
   
+    //these functions handle text being entered in the text forms
     const handleInputChange = (event) => {
       setPerson(event.target.value);
     };
@@ -50,7 +57,7 @@
     };
 
   return (
-    <body>
+    
       <div className="Homepage">
         <header className="WelcomeHeader">
           <div className="Welcome">
@@ -95,7 +102,7 @@
           </div>
         </div>
       </div>
-    </body>
+    
   );
 }
 

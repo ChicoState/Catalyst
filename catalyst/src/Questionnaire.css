@@ -38,34 +38,10 @@ body{
    color: #61dafb;
  }
  
- .ButtonContainer{
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   margin-top: 5em;
-   position: relative;
-   margin-bottom: 50vh;
- }
+
  .SubmitButton{
    background-color:  rgb(162, 162, 247);
    width: 150px;
    height: 75px;
- }
- 
- .ButtonText{
-   font-size: 2em;
- }
- 
- .Form{
-   display: flex;
-   flex-direction: column;
- }
- 
- select{
-   background-color: rgb(162, 162, 247);
- }
- 
- .NameForm{
-   background-color: rgb(162, 162, 247);
  }
  
