@@ -44,7 +44,7 @@
   // Handle button click
   const handleButtonClick = async () => {
     // Construct a new Skill object with the responses
-    const task_list = await createPlan(responses);
+    const task_list = await createPlan(responses, 7);
     
     sessionStorage.setItem('taskList', JSON.stringify(task_list));
 
