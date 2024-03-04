@@ -102,6 +102,7 @@ async function createPlan(filled_questionnaire, num_items) {
     listOfTasks.push(task);
   }
 
+  listOfTasks = parseTasksToJsonObjects(JSON.stringify(listOfTasks));
   console.log(listOfTasks);
 
   // Return list of Task objects
