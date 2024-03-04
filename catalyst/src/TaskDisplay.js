@@ -9,7 +9,7 @@
 
   // Questionnaire.js
   import React, { useState } from 'react';
-  import './App.css';
+  import './TaskDisplay.css';
 
 
   function TaskDisplay() {
@@ -27,15 +27,25 @@
     
 
     return (
+        <>
+        <h1>Your Goal-Oriented Tasks</h1>
         <div className="TaskDisplay">
             <ul>
                 {task_list.map((task, index) => (
                     <li key={index}>
-                        <strong>{task.TaskName}</strong>: {task.TimeInfo}
+                        <div className='taskname'>
+                            <strong>{task.TaskName}</strong>
+                        </div>
+                        <div className='desc'>
+                            {task.TimeInfo}
+                        </div>
+                         
                     </li>
                 ))}
             </ul>
         </div>
+        </>
+        
     );
 }
 
