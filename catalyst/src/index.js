@@ -1,18 +1,14 @@
-// Import the necessary modules
-import { createRoot } from 'react-dom/client';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import './index.css';
-import Login from './Login.js';
-import reportWebVitals from './reportWebVitals.js';
-import { BrowserRouter as Router } from 'react-router-dom';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-// This is the actual entry point of the app
-const root = createRoot(document.getElementById('root'));
-
-// Render your React components
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <Router>
-      <Login />
-    </Router>
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
