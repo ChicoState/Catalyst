@@ -1,47 +1,82 @@
-body{
-    background-color: #343b49;
-    color: rgba(228, 228, 228, 0.986);
- }
- 
- .Homepage{
-   display: flex;
- }
- 
- .WelcomeHeader{
-   display: flex;
-   height: 40vmin;
-   pointer-events: none;
- }
- 
- .Questionnaire{
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   font-size: x-large;
- }
- 
- 
- .Welcome{
-   background-color: #282c34;
-   min-height: 100vh;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   font-size: calc(10px + 2vmin);
-   color: white;
-   padding-left: 3em;
-   padding-right: 3em;
- }
- 
- .App-link {
-   color: #61dafb;
- }
- 
+/* Questionnaire.css */
 
- .SubmitButton{
-   background-color:  rgb(162, 162, 247);
-   width: 150px;
-   height: 75px;
- }
- 
+/* General styling for the homepage */
+.Homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f4f7f6;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+}
+
+.Welcome h1, .Welcome h3 {
+  text-align: center;
+  color: #2a9d8f;
+}
+
+/* Styling for the questionnaire container */
+.Questionnaire {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 600px;
+}
+
+/* Styling for each question */
+.Question {
+  margin-bottom: 20px;
+}
+
+.Question p {
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #264653;
+}
+
+/* Styling for input fields and select */
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus {
+  border-color: #2a9d8f;
+  outline: none;
+}
+
+/* Styling for the 'Continue' button */
+button {
+  background-color: #2a9d8f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #264653;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  .Questionnaire {
+    width: 90%;
+  }
+}

@@ -1,7 +1,7 @@
 
   // Questionnaire.js
   import React, { useState } from 'react';
-  import './App.css';
+  import './Questionnaire.css';
   import { useNavigate } from 'react-router-dom';
   import createPlan from './gemini.js';
   
@@ -57,12 +57,12 @@
   return (
     
       <div className="Homepage">
-        <header className="WelcomeHeader">
+
           <div className="Welcome">
             <h1>Welcome to Catalyst!</h1>
             <h3>Please tell us about your goals.</h3>
           </div>
-        </header>
+        
     <div className="Questionnaire">
       {questions.map((question, index) => (
         <div className="Question" key={index}>
