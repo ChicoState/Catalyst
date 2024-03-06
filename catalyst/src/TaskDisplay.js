@@ -10,6 +10,8 @@
   // Questionnaire.js
   import React, { useState } from 'react';
   import './TaskDisplay.css';
+  import NavbarContent from './navbar.js';
+
 
 
   function TaskDisplay() {
@@ -24,27 +26,26 @@
         console.error("No data found in storage");
     }
 
-    
-
     return (
-        <>
-        <h1>Your Goal-Oriented Tasks</h1>
-        <div className="TaskDisplay">
-            <ul>
-                {task_list.map((task, index) => (
-                    <li key={index}>
-                        <div className='taskname'>
-                            <strong>{task.TaskName}</strong>
-                        </div>
-                        <div className='desc'>
-                            {task.TimeInfo}
-                        </div>
-                         
-                    </li>
-                ))}
-            </ul>
+        <div>
+            <NavbarContent />
+            <h1>Your Goal-Oriented Tasks</h1>
+            <div className="TaskDisplay">
+                <ul>
+                    {task_list.map((task, index) => (
+                        <li key={index}>
+                            <div className='taskname'>
+                                <strong>{task.TaskName}</strong>
+                            </div>
+                            <div className='desc'>
+                                {task.TimeInfo}
+                            </div>
+                            
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
-        </>
         
     );
 }

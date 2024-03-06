@@ -4,12 +4,15 @@
   import './Questionnaire.css';
   import { useNavigate } from 'react-router-dom';
   import createPlan from './gemini.js';
+  import NavbarContent from './navbar.js';
   
   function Questionnaire() {
     const navigate = useNavigate();
 
     // Initialized a single state object for all responses
     const [responses, setResponses] = useState([]);
+
+
 
   // Define your question configuration
   const questions = [
@@ -55,14 +58,14 @@
   };
 
   return (
-    
-      <div className="Homepage">
 
-          <div className="Welcome">
-            <h1>Welcome to Catalyst!</h1>
-            <h3>Please tell us about your goals.</h3>
-          </div>
-        
+  <div className="Homepage">
+    <NavbarContent />
+      <div className="Welcome">
+        <h1>Welcome to Catalyst!</h1>
+        <h3>Please tell us about your goals.</h3>
+      </div>
+      
     <div className="Questionnaire">
       {questions.map((question, index) => (
         <div className="Question" key={index}>
