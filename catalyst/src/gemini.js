@@ -44,7 +44,7 @@ function validate_questionnaire_format(obj){
   return true;
 }
 
-async function createPlan(filled_questionnaire) {
+async function createPlan(filled_questionnaire, num_items) {
   // We expect an dictionary with indexs at the key and the values an array of strings of size 2
     if(!validate_questionnaire_format(filled_questionnaire)){
         console.log(filled_questionnaire);
@@ -54,26 +54,56 @@ async function createPlan(filled_questionnaire) {
   const model = genAI.getGenerativeModel({ model: "gemini-pro"});
   let task_example = new Task();
 
-    let stringifiedQuestionnaire = '';
-    // Create the string for the questionnaire
-    for (let key in filled_questionnaire){
-        stringifiedQuestionnaire += `${filled_questionnaire[key][0]}\n${filled_questionnaire[key][1]}\n\n`;
-    }
-
-  // Take items from the skill and pass it to the prompt
-  const prompt = `You are a task generation model used to create a set of tasks for people to do weekly in order to improve a specfic skill they are interested in. A person has filled out a questionnaire with the following information: 
+  // Create the string for the questionnaire
+  let stringifiedQuestionnaire = '';
+  for (let key in filled_questionnaire){
+      stringifiedQuestionnaire += `${filled_questionnaire[key][0]}\n${filled_questionnaire[key][1]}\n\n`;
+  }
   
-    ${stringifiedQuestionnaire}
+  // Output list of tasks
+  let listOfTasks = [];
 
-  Your task is to generate a list of tasks that this person can do weekly in order to improve themselves at this skill. Given the above questionniare, output a list of tasks. Each element should utilize JSON format using following template: ${task_example.toJSON()}. Ensure that each element in the list follows the format and that the output is a JSON list of these objects.`;
+  for( let i = 0; i < num_items; i++){
+  
+    let listOfTasks_string = listOfTasks && Array.isArray(listOfTasks) ? JSON.stringify(listOfTasks): '[]';
 
-  console.log(prompt);
-  // Get Response
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const text = response.text();
-  console.log(text);
-  let listOfTasks = parseTasksToJsonObjects(text);
+    // Prompt construction used for generation
+    const prompt = `You are a task generation model used to create a set of tasks for people to do weekly in order to improve a specfic skill they are interested in. A person has filled out a questionnaire with the following information: 
+    
+      ${stringifiedQuestionnaire}
+
+    Your task is to generate a task that this person can do weekly in order to improve themselves at this skill. Given the above questionniare, output a another task in JSON format using following template: ${task_example.toJSON()}. Ensure that the element is in the specified format and that the information in the object is clear, concise, and articulate. Generate 1 more element that compliments the following list. If there are not elements currently, then generate a good starting point for someone to focus on.
+    
+    Existing list:
+    ${listOfTasks_string}
+    `;
+
+    console.log(prompt);  
+
+    // Request generation, if the generation cannot be parsed, request it again
+    let successful_generation = false;
+    let task;
+
+    do{
+      try{
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+        console.log(text);
+        //task = parseTasksToJsonObjects(text);
+        task = JSON.parse(text);
+        successful_generation = true;
+      }catch(error){
+        console.log("Could not parse generation, trying again...");
+      }
+    }while(!successful_generation);
+    console.log(task);
+
+    listOfTasks.push(task);
+  }
+
+  listOfTasks = parseTasksToJsonObjects(JSON.stringify(listOfTasks));
+  console.log(listOfTasks);
 
   // Return list of Task objects
   return listOfTasks;
