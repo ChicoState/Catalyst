@@ -1,89 +1,132 @@
+// Questionnaire.js
+import React, { useState } from 'react';
+import './Questionnaire.css';
+import { useNavigate } from 'react-router-dom';
+import createPlan from './gemini.js';
+import NavbarContent from './navbar.js';
 
-  // Questionnaire.js
-  import React, { useState } from 'react';
-  import './Questionnaire.css';
-  import { useNavigate } from 'react-router-dom';
-  import createPlan from './gemini.js';
-  import NavbarContent from './navbar.js';
-  
-  function Questionnaire() {
-    const navigate = useNavigate();
+function Questionnaire() {
+  const navigate = useNavigate();
 
-    // Initialized a single state object for all responses
-    const [responses, setResponses] = useState([]);
-
-
+  // Initialized a single state object for all responses
+  const [responses, setResponses] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Define your question configuration
   const questions = [
-
     {
-      type: 'text', questionText: 'Describe the skill you would like to pursue:'
+      type: 'text',
+      questionText: 'Describe the skill you would like to pursue:',
     },
     {
-      type: 'select', 
-      questionText: 'How many hours per week would you like to spend improving this skill?', 
+      type: 'select',
+      questionText: 'How many hours per week would you like to spend improving this skill?',
       options: ['1-10', '11-20', '21-30', '31+'],
     },
     {
       type: 'select',
       questionText: 'What is your current experience level at this task?',
-      options: ["Beginner", "Intermediate", "Experienced"],
+      options: ['Beginner', 'Intermediate', 'Experienced'],
     },
     {
-      type: 'text', questionText: 'Is there a specific area that you would like to focus on?' },
-
+      type: 'text',
+      questionText: 'Is there a specific area that you would like to focus on? (optional)',
+    },
   ];
 
-  // Update the state based on input changes
   const handleChange = (index, questionText, value) => {
-    setResponses((prevResponses) => { 
-      const newResponses = [...prevResponses];    // Copies the previous responses into a new object
-      newResponses[index] = [questionText, value];
+    // Clear any previous error message when the user starts typing
+    setErrorMessage('');
+  
+    setResponses((prevResponses) => {
+      const newResponses = [...prevResponses];
+      // Ensure that the value is not undefined
+      newResponses[index] = [questionText, value || ''];
       return newResponses;
     });
   };
+  
+  
 
-  // Handle button click
   const handleButtonClick = async () => {
+    // Clear any previous error message
+    setErrorMessage('');
+  
+    // Construct the filled_questionnaire object directly
+    const filled_questionnaire = {};
+    questions.forEach((question, index) => {
+      filled_questionnaire[index] = responses[index] || [question.questionText, ''];
+    });
+  
+    // Validate that the first text field is not empty
+    const skillTextFieldValue = filled_questionnaire[0];
+    if (!skillTextFieldValue || !skillTextFieldValue[1].trim()) {
+      // Display an error message for the first text field
+      setErrorMessage('Please enter a description for the skill.');
+      return;
+    }
+  
+
+    // Display the loading message
+    setLoading(true);
+  
+    try { 
     // Construct a new Skill object with the responses
-    const task_list = await createPlan(responses, 7);
-    
-    sessionStorage.setItem('taskList', JSON.stringify(task_list));
+    const taskList = await createPlan(responses, 7);
 
-    setTimeout(() => {
-      navigate("/display-tasks");
-  }, 100);
-    
+    // Save the taskList to sessionStorage
+    sessionStorage.setItem('taskList', JSON.stringify(taskList));
+
+    // Navigate to the next page
+    navigate('/display-tasks');
+    } catch (error) {
+      // Handle any errors that might occur during processing
+      console.error('Error during processing:', error);
+    } finally {
+      // Hide the loading overlay regardless of success or failure
+      setLoading(false);
+    }
   };
-
+  
+  
+  
+  
   return (
-
-  <div className="Homepage">
-    <NavbarContent />
+    <div className="Homepage">
+      <NavbarContent />
       <div className="Welcome">
         <h1>Welcome to Catalyst!</h1>
         <h3>Please tell us about your goals.</h3>
       </div>
-      
+  
     <div className="Questionnaire">
       {questions.map((question, index) => (
         <div className="Question" key={index}>
           <p>{question.questionText}</p>
           {question.type === 'text' ? (
-            <input
-              type="text"
-              value={responses[index] ? responses[index][1]: ''}
-              onChange={(e) => handleChange(index, question.questionText, e.target.value)}
-            />
+            <div>
+              <input
+                type="text"
+                value={responses[index] ? responses[index][1] : ''}
+                onChange={(e) => handleChange(index, question.questionText, e.target.value)}
+              />
+              {errorMessage && question.questionText === 'Describe the skill you would like to pursue:' && (
+                <div className="error-message">{errorMessage}</div>
+              )}
+            </div>
           ) : (
             <select
-              value={responses[index] ? responses[index][1]: ''}
+              value={responses[index] ? responses[index][1] : ''}
               onChange={(e) => handleChange(index, question.questionText, e.target.value)}
             >
-              <option value="" disabled>Select...</option>
+              <option value="" disabled>
+                Select...
+              </option>
               {question.options.map((option) => (
-                <option key={option} value={option}>{option}</option>
+                <option key={option} value={option}>
+                  {option}
+                </option>
               ))}
             </select>
           )}
@@ -91,10 +134,13 @@
       ))}
       <button onClick={handleButtonClick}>Continue</button>
     </div>
+  {loading && (
+    <div id="loading-overlay">
+      <div id="loading-message">Processing, please wait...</div>
+    </div>
+      )}
     </div>
   );
 }
 
 export default Questionnaire;
-
-
