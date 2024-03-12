@@ -3,6 +3,8 @@ import axios from 'axios';
 import './App.css';
 import './Login.css';
 import { useNavigate, Routes, Route} from 'react-router-dom';
+import NavbarContent from './navbar.js';
+
 
 function Login() {
     const navigate = useNavigate();
@@ -80,6 +82,7 @@ function Login() {
 
     return (
         <div>
+            <NavbarContent />
             <div>
                 <h2>Register</h2>
                 <p>User name</p>
