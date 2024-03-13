@@ -8,11 +8,6 @@ import NavbarContent from './navbar.js';
 function Questionnaire() {
   const navigate = useNavigate();
 
-  // Initialized a single state object for all responses
-  const [responses, setResponses] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-
   // Define your question configuration
   const questions = [
     {
@@ -22,18 +17,29 @@ function Questionnaire() {
     {
       type: 'select',
       questionText: 'How many hours per week would you like to spend improving this skill?',
-      options: ['1-10', '11-20', '21-30', '31+'],
+      options: ['Unspecified','1-10', '11-20', '21-30', '31+'],
     },
     {
       type: 'select',
       questionText: 'What is your current experience level at this task?',
-      options: ['Beginner', 'Intermediate', 'Experienced'],
+      options: ['Unspecified', 'Beginner', 'Intermediate', 'Experienced'],
     },
     {
       type: 'text',
       questionText: 'Is there a specific area that you would like to focus on? (optional)',
     },
   ];
+
+  const defaultResponses = questions.map((question, index) => {
+    const defaultValue = question.type === 'text'? '' : question.options[0];
+    return [question.questionText, defaultValue];
+  });
+
+  // Initialized a single state object for all responses
+  const [responses, setResponses] = useState(defaultResponses);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
 
   const handleChange = (index, questionText, value) => {
     // Clear any previous error message when the user starts typing
@@ -47,8 +53,6 @@ function Questionnaire() {
     });
   };
   
-  
-
   const handleButtonClick = async () => {
     // Clear any previous error message
     setErrorMessage('');
@@ -88,9 +92,6 @@ function Questionnaire() {
       setLoading(false);
     }
   };
-  
-  
-  
   
   return (
     <div className="Homepage">
