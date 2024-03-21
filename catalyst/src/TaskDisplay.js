@@ -19,9 +19,8 @@
 
     // Check if data exists and retrieve it
     if (sessionStorage.getItem('taskList')) { // Ensure correct key is used
-        const items = JSON.parse(sessionStorage.getItem('taskList'));
-        task_list = items.map(item => JSON.parse(item)); // Parse each item into an object
-        console.log(task_list);
+        task_list = JSON.parse(sessionStorage.getItem('taskList'));
+        console.log(task_list)
     } else {
         console.error("No data found in storage");
     }
@@ -38,6 +37,9 @@
                                 <strong>{task.TaskName}</strong>
                             </div>
                             <div className='desc'>
+                                {task.Description}
+                            </div>
+                            <div className='timeinfo'>
                                 {task.TimeInfo}
                             </div>
                             

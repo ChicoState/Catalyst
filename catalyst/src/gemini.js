@@ -14,17 +14,6 @@ import Task from './models/Task.js';
 // Access your API key as an environment variable (see "Set up your API key" above)
 const genAI = new GoogleGenerativeAI(process.env.REACT_APP_API_KEY);
 
-function parseTasksToJsonObjects(taskJsonString) {
-  // Take a string and parse it for json information. Must be in the task format
-  const taskObjects = JSON.parse(taskJsonString);
-  const tasks = taskObjects.map(taskData => {
-    const task = new Task();
-    task.update(taskData.TaskName, taskData.TimeInfo);
-    return task;
-  });
-  return tasks;
-}
-
 function validate_questionnaire_format(obj) {
   if (typeof obj !== 'object' || obj == null) {
     return false;
@@ -44,12 +33,27 @@ function validate_questionnaire_format(obj) {
   return true;
 }
 
+function deepEqual(obj1, obj2) {
+  if (typeof obj1 !== 'object' || typeof obj2 !== 'object'|| obj1 == null || obj2 == null) return false; // Check if either is not an object or is null
+
+  let keys1 = Object.keys(obj1);
+  let keys2 = Object.keys(obj2);
+
+  if (keys1.length !== keys2.length) return false; // Different number of properties
+
+  for (let key of keys1) {
+    if (!keys2.includes(key)) return false; // Check if objects have same keys and if sub-properties are equal
+  }
+
+  return true;
+}
+
 async function createPlan(filled_questionnaire, num_items) {
   // We expect a dictionary with indexes at the key and the values an array of strings of size 2
   if (!validate_questionnaire_format(filled_questionnaire)) {
-    console.log(filled_questionnaire);
     console.error("Object passed to gemini is not of a valid format.");
   }
+  console.log(filled_questionnaire);
 
   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
   let task_example = new Task();
@@ -66,13 +70,13 @@ async function createPlan(filled_questionnaire, num_items) {
   for (let i = 0; i < num_items; i++) {
 
     let listOfTasks_string = listOfTasks && Array.isArray(listOfTasks) ? JSON.stringify(listOfTasks) : '[]';
-
+    let new_task;
     // Prompt construction used for generation
     const prompt = `You are a task generation model used to create a set of tasks for people to do weekly in order to improve a specific skill they are interested in. A person has filled out a questionnaire with the following information: 
 
       ${stringifiedQuestionnaire}
 
-    Your task is to generate a task that this person can do weekly to improve themselves at this skill. Given the above questionnaire, output another task in JSON format using the following template: ${task_example.toJSON()}. Ensure that the element is in the specified format and that the information in the object is clear, concise, and articulate. Generate 1 more element that complements the following list. If there are no elements currently, then generate a good starting point for someone to focus on.
+    Your task is to generate a task that this person can do weekly to improve themselves at this skill. Given the above questionnaire, output another task in JSON format using the following template: ${JSON.stringify(task_example)}. Ensure that the element is in the specified format and that the information in the object is clear, concise, and articulate. Generate 1 more element that complements the following list. If there are no elements currently, then generate a good starting point for someone to focus on.
 
     Existing list:
     ${listOfTasks_string}
@@ -82,34 +86,38 @@ async function createPlan(filled_questionnaire, num_items) {
 
     // Request generation, if the generation cannot be parsed, request it again
     let successful_generation = false;
-    let task;
-
     do {
+
+      // Send generation request
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = await response.text();
+
+      // Test for generation parsability
       try {
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = await response.text();
-        console.log(text);
 
-        // Modify this part to handle non-JSON responses gracefully
-        try {
-          task = JSON.parse(text);
-        } catch (jsonError) {
-          console.error('Error parsing generated content as JSON:', jsonError);
-          throw new Error('Invalid JSON format');
-        }
-
-        successful_generation = true;
+        new_task = JSON.parse(text);
+        
       } catch (error) {
-        console.log('Could not parse generation, trying again...');
-      }
-    } while (!successful_generation);
-    console.log(task);
 
-    listOfTasks.push(task);
+        console.error('Error parsing generated content as JSON:', error);
+        throw new Error('Invalid JSON format');
+      }
+
+      //console.log(new_task);
+      //console.log(JSON.parse(JSON.stringify(task_example)));
+      if(deepEqual(new_task, JSON.parse(JSON.stringify(task_example)))){
+        successful_generation = true;
+      }else{
+        console.log('Not a valid Task object');
+      }
+
+    } while (!successful_generation);
+
+    //console.log(new_task);
+    listOfTasks.push(new_task);
   }
 
-  listOfTasks = parseTasksToJsonObjects(JSON.stringify(listOfTasks));
   console.log(listOfTasks);
 
   // Return a list of Task objects

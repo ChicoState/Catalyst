@@ -5,7 +5,6 @@ import './Login.css';
 import { useNavigate, Routes, Route} from 'react-router-dom';
 import NavbarContent from './navbar.js';
 
-
 function Login() {
     const navigate = useNavigate();
     const [usernameReg, setUsernameReg] = useState('');
@@ -16,7 +15,6 @@ function Login() {
     const [registrationMessage, setRegistrationMessage] = useState('');
     const [loginMessage, setLoginMessage] = useState('');
     const [user, setUser] = useState(null);
-
 
     const handleRegUserNameChange = (event) => {
         setUsernameReg(event.target.value);
@@ -107,7 +105,7 @@ function Login() {
                 {registrationMessage && <p>{registrationMessage}</p>}
             </div>
             <div>
-                <h2>Login</h2>
+                <h2>Login</h2>b 
                 <p>Email</p>
                 <input
                     type="text"
