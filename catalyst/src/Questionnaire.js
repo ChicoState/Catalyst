@@ -77,7 +77,7 @@ function Questionnaire() {
   
     try { 
     // Construct a new Skill object with the responses
-    const taskList = await createPlan(responses, 1);
+    const taskList = await createPlan(responses, 7);
 
     // Save the taskList to sessionStorage
     sessionStorage.setItem('taskList', JSON.stringify(taskList));
