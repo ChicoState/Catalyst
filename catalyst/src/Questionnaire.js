@@ -70,7 +70,6 @@ function Questionnaire() {
       setErrorMessage('Please enter a description for the skill.');
       return;
     }
-  
 
     // Display the loading message
     setLoading(true);
@@ -78,8 +77,9 @@ function Questionnaire() {
     try { 
     // Construct a new Skill object with the responses
     const taskList = await createPlan(responses, 7);
-
+    console.log(filled_questionnaire)
     // Save the taskList to sessionStorage
+    sessionStorage.setItem('skillInfo', JSON.stringify(filled_questionnaire));
     sessionStorage.setItem('taskList', JSON.stringify(taskList));
 
     // Navigate to the next page

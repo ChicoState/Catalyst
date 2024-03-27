@@ -17,6 +17,7 @@ html, body {
     margin-left: 50px;
     margin-bottom: 60px; /* Creates a gap between the h1 and TaskDisplay */
   }
+  
   .TaskDisplay {
     background: white;
     padding: 20px;
@@ -26,7 +27,6 @@ html, body {
     width: 100%;
     max-width: 100%;
     font-family: 'Arial', sans-serif;
-   
   }
   
   .TaskDisplay ul {
@@ -65,6 +65,22 @@ html, body {
     font-size: 1.2em; /* Makes task name larger than description */
   margin-bottom: 5px; /* Spacing between task name and description */
   }
+
+  /* styles.css */
+
+.buttonSelected {
+  background-color: #ba290c; /* Green */
+  color: white;
+  /* Add more styles as needed */
+}
+
+.buttonNotSelected {
+  background-color: #00ba88; /* Blue */
+  color: white;
+  /* Add more styles as needed */
+}
+
+
   .desc {
     font-size: 0.9em; /* Keeps the description text smaller than the task name */
   }

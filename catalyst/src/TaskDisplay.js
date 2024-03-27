@@ -14,13 +14,22 @@
 
   function TaskDisplay() {
     let init_tasks = []; // Initialize with an empty array
+    let questionnaire;
 
     // Check if data exists and retrieve it
     if (sessionStorage.getItem('taskList')) { // Ensure correct key is used
         init_tasks = JSON.parse(sessionStorage.getItem('taskList'));
-        console.log(init_tasks)
+        //console.log(init_tasks)
     } else {
-        console.error("No data found in storage");
+        console.error("Task list not found...");
+    }
+
+    // Get the Questionaire Content
+    if (sessionStorage.getItem('skillInfo')){
+        questionnaire = JSON.parse(sessionStorage.getItem('skillInfo'));
+        console.log(questionnaire);
+    } else {
+        console.error("Questionnaire not found...")
     }
 
     // Selected Tasks
@@ -45,6 +54,7 @@
         selectedTasks.forEach(index => {
             console.log(init_tasks[index]);
         });
+        sessionStorage.setItem("selectedTasks", JSON.stringify(selectedTasks));
     };
 
     return (
@@ -53,6 +63,7 @@
             <h1>Your Goal-Oriented Tasks</h1>
             <form onSubmit={handleSubmit}>
                 <div className="TaskDisplay">
+                    <button type="submit">Submit Selected Tasks</button>
                     <ul>
                         {init_tasks.map((task, index) => (
                             <li key={index}>
@@ -65,14 +76,14 @@
                                 <div className='timeinfo'>
                                     {task.TimeInfo}
                                 </div>
-                                <button type="button" onClick={() => toggleTaskSelection(index)}>
+                                <button type="button" className={selectedTasks.has(index) ? 'buttonSelected' : 'buttonNotSelected'}
+ onClick={() => toggleTaskSelection(index)}>
                                     {selectedTasks.has(index) ? 'Deselect' : 'Select'}
                                 </button>
                             </li>
                         ))}
                     </ul>
                 </div>
-                <button type="submit">Submit Selected Tasks</button>
             </form>
         </div>
         

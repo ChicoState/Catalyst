@@ -1,3 +1,5 @@
+import 
+
 class Skill {
     constructor(skillType, timeCommitment, experienceLevel, focus) {
       this.SkillType = skillType;
