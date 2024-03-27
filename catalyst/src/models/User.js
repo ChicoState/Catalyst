@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Skill from './Skill.js'
+import Skill from './Skill.js';
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
-    Skills: [Skill], // Embedding Task documents directly into Skill
+    Skills: [Skill.schema], 
     Description: {
       type: String,
       default: ''

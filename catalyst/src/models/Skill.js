@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
-import Task from './Task.js'; // Adjust the path as necessary
+import Task from './Task.js';
 
-// Assuming taskSchema is defined in the Task model as shown earlier
 
 const skillSchema = new mongoose.Schema({
   SkillName: {
@@ -9,7 +8,7 @@ const skillSchema = new mongoose.Schema({
     required: true,
     default: ''
   },
-  Tasks: [Task], // Embedding Task documents directly into Skill
+  Tasks: [Task.schema], 
   Description: {
     type: String,
     default: ''
@@ -17,8 +16,7 @@ const skillSchema = new mongoose.Schema({
 }, {
   toJSON: {
     transform: function(doc, ret) {
-      // Modify the toJSON transformation for Skill as needed
-      delete ret.__v; // For example, removing the version key if not needed
+      delete ret.__v;
       return ret;
     }
   }
