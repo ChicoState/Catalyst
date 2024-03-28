@@ -4,7 +4,6 @@ import './Questionnaire.css';
 import { useNavigate } from 'react-router-dom';
 import createPlan from './gemini.js';
 import NavbarContent from './navbar.js';
-import { UserProvider } from './UserContext.js';
 
 
 function Questionnaire() {
