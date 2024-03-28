@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext} from 'react';
 import axios from 'axios';
 import './App.css';
 import './Login.css';
+import UserContext from './UserContext.js';
 import { useNavigate, Routes, Route} from 'react-router-dom';
 import NavbarContent from './navbar.js';
 
@@ -14,7 +15,7 @@ function Login() {
     const [passwordLogin, setPasswordLogin] = useState('');
     const [registrationMessage, setRegistrationMessage] = useState('');
     const [loginMessage, setLoginMessage] = useState('');
-    const [user, setUser] = useState(null);
+    const { setUser } = useContext(UserContext);
 
     const handleRegUserNameChange = (event) => {
         setUsernameReg(event.target.value);
@@ -105,7 +106,7 @@ function Login() {
                 {registrationMessage && <p>{registrationMessage}</p>}
             </div>
             <div>
-                <h2>Login</h2>b 
+                <h2>Login</h2> 
                 <p>Email</p>
                 <input
                     type="text"
