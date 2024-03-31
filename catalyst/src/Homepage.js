@@ -2,7 +2,7 @@ import React, { useState, useContext} from 'react';
 import NavbarContent from './navbar.js';
 import { Link } from 'react-router-dom';
 import UserContext from './UserContext.js';
-
+import './Homepage.css';
 
 
 
@@ -28,7 +28,7 @@ function Homepage() {
                             This is where you will see the skills you want to improve. 
                             Take our questionnaire to create a new one!
                         </h3>
-                        <Link to="/Questionnaire">Take Questionnaire</Link>
+                        <Link to="/Questionnaire" className="link">Take Questionnaire</Link>
                     </div>
                 )}
                 </div>

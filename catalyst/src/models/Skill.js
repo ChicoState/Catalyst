@@ -8,7 +8,10 @@ const skillSchema = new mongoose.Schema({
     required: true,
     default: ''
   },
-  Tasks: [Task.schema], 
+  Tasks: {
+    type: [Task.schema],
+    default: undefined
+  },
   Description: {
     type: String,
     default: ''

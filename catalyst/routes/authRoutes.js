@@ -69,18 +69,91 @@ router.post('/login', async (req, res) => {
         // If the credentials are valid, create a JSON Web Token (JWT) for authentication
         const payload = {
             user: {
-                id: user.id
+                id: user.id,
+                username: user.username // Include the username in the payload
             }
         };
 
         jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '5h' }, (err, token) => {
             if (err) throw err;
-            res.json({ token });
+            res.json({ token, username: user.username }); // Include the username in the response
         });
 
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
+    }
+});
+
+const updateUser = async (userId, updatedUserInfo) => {
+    try {
+        // Find the user by ID and update their information
+        const user = await User.findByIdAndUpdate(userId, updatedUserInfo, { new: true });
+
+        if (user) {
+            return { success: true, user };
+        } else {
+            return { success: false, message: 'User not found' };
+        }
+    } catch (error) {
+        console.error('Error updating user:', error);
+        return { success: false, message: 'Internal server error' };
+    }
+};
+
+router.post('/add-skill', async (req, res) => {
+    const { email, skill } = req.body; // Extract the email and skill information from the request body
+
+    try {
+        // Find the user by email
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Create a new skill object based on the received skill data
+        const newSkill = new Skill(skill);
+
+        // Add the new skill to the user's skills array
+        user.Skills.push(newSkill);
+
+        // Save the updated user object
+        await user.save();
+
+        // Respond with a success message and the updated user object
+        res.status(200).json({ success: true, message: 'Skill added successfully', user });
+    } catch (error) {
+        console.error('Error adding skill to user:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+});
+
+router.post('/add-skill', async (req, res) => {
+    const { email, skill } = req.body; // Extract the email and skill information from the request body
+
+    try {
+        // Find the user by email
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Create a new skill object based on the received skill data
+        const newSkill = new Skill(skill);
+
+        // Add the new skill to the user's skills array
+        user.Skills.push(newSkill);
+
+        // Save the updated user object
+        await user.save();
+
+        // Respond with a success message and the updated user object
+        res.status(200).json({ success: true, message: 'Skill added successfully', user });
+    } catch (error) {
+        console.error('Error adding skill to user:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
     }
 });
 
