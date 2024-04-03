@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-  import React, { useState } from 'react';
-=======
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //  Initial Author: Lucas Butler
@@ -12,7 +10,6 @@
 
   // Questionnaire.js
   import React, { useState, useContext} from 'react';
->>>>>>> 5f348ef0c976cdfec439ec0c4ab9db25c151dbd2
   import './TaskDisplay.css';
   import NavbarContent from './navbar.js';
   import UserContext from './UserContext.js';
@@ -27,8 +24,8 @@
     const navigate = useNavigate();
 
     // Check if data exists and retrieve it
-    if (sessionStorage.getItem('newTasks')) { // Ensure correct key is used
-        init_tasks = JSON.parse(sessionStorage.getItem('newTasks'));
+    if (sessionStorage.getItem('taskList')) { // Ensure correct key is used
+        init_tasks = JSON.parse(sessionStorage.getItem('taskList'));
         //console.log(init_tasks)
     } else {
         console.error("New task list not found...");
