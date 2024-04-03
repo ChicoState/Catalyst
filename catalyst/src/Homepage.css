@@ -1,18 +1,25 @@
-/* General styling for the homepage */
-.Homepage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Align items to the start of the main axis (top) */
-    min-height: 100vh;
-    min-width: 100vw;
-    background-color: #f4f7f6;
-    color: #333;
-    font-family: 'Arial', sans-serif;
-  }
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
+}
 
-.link {
-    text-align: center;
-    color: blue; 
+.skill {
+  width: 80%; /* Adjust the width as needed */
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: lightblue;
+  border: 1px solid #444;
+
+}
+
+.tasks-column {
+  columns: 2; /* Number of columns for tasks */
+  list-style: none;
+  padding: 0;
+}
+
+.tasks-column li {
+  margin-bottom: 10px;
 }

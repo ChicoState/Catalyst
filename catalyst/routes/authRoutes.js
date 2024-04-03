@@ -92,25 +92,21 @@ router.post('/add-skill', async (req, res) => {
     const { email, skill } = req.body; // Extract the email and skill information from the request body
     
     try {
-
         // Find the user by email
         let user = await User.findOne({ email });
 
-        
         // Initialize the Skills array if it's undefined
         if(!user.Skills)
         {
            user.Skills = []; 
         }
-        
-        
-
+    
         // Add the new skill to the user's skills array
         user.Skills.push(skill);
         
         // Save the updated user object
         await user.save();
-               // Respond with the updated user object in the desired format
+               // Respond with the updated user object 
                const payload = {
                 user: {
                     username: user.username,
