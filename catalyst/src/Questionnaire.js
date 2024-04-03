@@ -76,22 +76,22 @@ function Questionnaire() {
     setLoading(true);
   
     try { 
-    // Construct a new Skill object with the responses
-    const taskList = await createPlan(responses, 7);
-    console.log(filled_questionnaire)
-    // Save the taskList to sessionStorage
-    sessionStorage.setItem('skillInfo', JSON.stringify(filled_questionnaire));
-    sessionStorage.setItem('taskList', JSON.stringify(taskList));
+      // Construct a new Skill object with the responses
+      const taskList = await createPlan(responses, 7);
+      console.log(filled_questionnaire)
+      // Save the taskList to sessionStorage
+      sessionStorage.setItem('skillInfo', JSON.stringify(filled_questionnaire));
+      sessionStorage.setItem('taskList', JSON.stringify(taskList));
 
-    // Navigate to the next page
-    navigate('/display-tasks');
-    } catch (error) {
-      // Handle any errors that might occur during processing
-      console.error('Error during processing:', error);
-    } finally {
-      // Hide the loading overlay regardless of success or failure
-      setLoading(false);
-    }
+      // Navigate to the next page
+      navigate('/display-tasks');
+      } catch (error) {
+        // Handle any errors that might occur during processing
+        console.error('Error during processing:', error);
+      } finally {
+        // Hide the loading overlay regardless of success or failure
+        setLoading(false);
+      }
   };
   
   return (

@@ -13,11 +13,11 @@
   import NavbarContent from './navbar.js';
   import UserContext from './UserContext.js';
   import { useNavigate } from 'react-router-dom';
-  import Skill from './models/Skill.js';
   import axios from 'axios';
 
   function TaskDisplay() {
     const { user } = useContext(UserContext); //initialize the user
+    const { setUser } = useContext(UserContext);
     let init_tasks = []; // Initialize with an empty array
     let questionnaire;
     const navigate = useNavigate();
@@ -55,8 +55,8 @@
     // Task list submission
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // Do whatever with selected tasks
-        console.log("Selected tasks:");
+    
+        
         selectedTasks.forEach(index => {
             console.log(init_tasks[index]);
         });
@@ -65,30 +65,26 @@
         if(user){
             try {
                 // Create a new skill object
-                const newSkill = new Skill({
-                    SkillName: 'Your Skill Name', // Set the skill name
+                const newSkill = {
+                    SkillName: 'Temp Skill Name', // Set the skill name
                     Tasks: Array.from(selectedTasks).map(index => init_tasks[index]), // Set tasks for the skill
-                    Description: 'Your skill description' // Set the skill description
-                });
+                };
+                
+                // Send the new skill object to the server
+                const response = await axios.post("http://localhost:4000/api/add-skill", { email: user.email, skill: newSkill });
     
-                // Save the new skill object to the database
-                const response = await axios.post('/save-skill', { skill: newSkill });
-                console.log(response.data);
-                user.Skills.push(newSkill); //save the new skill to the user
-
-                axios.post('/add-skill', { email: user.email, skill: newSkill })
-
-                    .then(response => {
-                        console.log(response.data); 
-                    })
-                    .catch(error => {
-                        console.error(error); 
-                    });
-
-                console.log("Skill created:", newSkill); // Log the newly created skill object
-                navigate('/');
+                // Check if the request was successful
+                if (response && response.data) {
+                    const updatedUser = response.data;
+                    console.log(response.data)
+                    setUser(updatedUser);
+                    
+                    navigate('/');
+                } else {
+                    console.error("Error creating skill:", response.data.message);
+                }
             } catch (error) {
-                console.error("Error creating skill:", error);
+                console.error("Error creating skill:", error.message);
             }
         } else{
             navigate('/login');

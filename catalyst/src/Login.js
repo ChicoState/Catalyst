@@ -69,10 +69,11 @@ function Login() {
             });
             const loggedInUser = response.data;
             setUser(loggedInUser);
+            console.log(loggedInUser);
             setLoginMessage(`User ${loggedInUser.username} logged in successfully!`);
-            if (!loggedInUser.takenQuestionnaire) {
-                navigate("/Questionnaire");
-            }
+            
+            navigate("/");
+            
         } catch (error) {
             console.error('Error logging in user:', error.message);
             setLoginMessage('Error logging in user. Please check your credentials and try again.');
