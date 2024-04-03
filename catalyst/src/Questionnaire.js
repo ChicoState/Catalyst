@@ -1,4 +1,3 @@
-// Questionnaire.js
 import React, { useState } from 'react';
 import './Questionnaire.css';
 import { useNavigate } from 'react-router-dom';
@@ -59,6 +58,7 @@ function Questionnaire() {
   
     // Construct the filled_questionnaire object directly
     const filled_questionnaire = {};
+
     questions.forEach((question, index) => {
       filled_questionnaire[index] = responses[index] || [question.questionText, ''];
     });
@@ -75,15 +75,17 @@ function Questionnaire() {
     setLoading(true);
   
     try { 
-    // Construct a new Skill object with the responses
-    const taskList = await createPlan(responses, 7);
-    console.log(filled_questionnaire)
-    // Save the taskList to sessionStorage
-    sessionStorage.setItem('skillInfo', JSON.stringify(filled_questionnaire));
-    sessionStorage.setItem('taskList', JSON.stringify(taskList));
+      // Construct a new Skill object with the responses
+      const taskList = await createPlan(filled_questionnaire, 3);
+      console.log(filled_questionnaire);
 
-    // Navigate to the next page
-    navigate('/display-tasks');
+      // Save the taskList to sessionStorage
+      sessionStorage.setItem('skillInfo', JSON.stringify(filled_questionnaire));
+      sessionStorage.setItem('newTasks', JSON.stringify(taskList));
+
+      // Navigate to the next page
+      navigate('/display-tasks');
+
     } catch (error) {
       // Handle any errors that might occur during processing
       console.error('Error during processing:', error);

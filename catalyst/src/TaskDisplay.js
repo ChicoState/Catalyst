@@ -1,13 +1,3 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Initial Author: Lucas Butler
-//  Date: Mar 1, '24
-//  Description:    
-//      This .js file takes in a list of task objects and displays them on the page
-//
-////////////////////////////////////////////////////////////////////////////////
-
-  // Questionnaire.js
   import React, { useState } from 'react';
   import './TaskDisplay.css';
   import NavbarContent from './navbar.js';
@@ -17,11 +7,11 @@
     let questionnaire;
 
     // Check if data exists and retrieve it
-    if (sessionStorage.getItem('taskList')) { // Ensure correct key is used
-        init_tasks = JSON.parse(sessionStorage.getItem('taskList'));
+    if (sessionStorage.getItem('newTasks')) { // Ensure correct key is used
+        init_tasks = JSON.parse(sessionStorage.getItem('newTasks'));
         //console.log(init_tasks)
     } else {
-        console.error("Task list not found...");
+        console.error("New task list not found...");
     }
 
     // Get the Questionaire Content
