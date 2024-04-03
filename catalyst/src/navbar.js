@@ -15,6 +15,11 @@ const NavbarContent = () => {
         <ul>
           <li>
             <a href="#" onClick={() => handleNavigation('/')}>
+              Homepage
+            </a>
+          </li>
+          <li>
+            <a href="#" onClick={() => handleNavigation('/Questionnaire')}>
               Questionnaire
             </a>
           </li>

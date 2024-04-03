@@ -1,0 +1,18 @@
+/* General styling for the homepage */
+.Homepage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align items to the start of the main axis (top) */
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: #f4f7f6;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+  }
+
+
+.link {
+    text-align: center;
+    color: blue; 
+}
