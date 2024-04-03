@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import createPlan from './gemini.js';
 import NavbarContent from './navbar.js';
 
+
 function Questionnaire() {
   const navigate = useNavigate();
 
@@ -76,23 +77,21 @@ function Questionnaire() {
   
     try { 
       // Construct a new Skill object with the responses
-      const taskList = await createPlan(filled_questionnaire, 3);
-      console.log(filled_questionnaire);
-
+      const taskList = await createPlan(responses, 3);
+      console.log(filled_questionnaire)
       // Save the taskList to sessionStorage
       sessionStorage.setItem('skillInfo', JSON.stringify(filled_questionnaire));
-      sessionStorage.setItem('newTasks', JSON.stringify(taskList));
+      sessionStorage.setItem('taskList', JSON.stringify(taskList));
 
       // Navigate to the next page
       navigate('/display-tasks');
-
-    } catch (error) {
-      // Handle any errors that might occur during processing
-      console.error('Error during processing:', error);
-    } finally {
-      // Hide the loading overlay regardless of success or failure
-      setLoading(false);
-    }
+      } catch (error) {
+        // Handle any errors that might occur during processing
+        console.error('Error during processing:', error);
+      } finally {
+        // Hide the loading overlay regardless of success or failure
+        setLoading(false);
+      }
   };
   
   return (

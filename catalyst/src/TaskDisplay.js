@@ -1,10 +1,30 @@
+<<<<<<< HEAD
   import React, { useState } from 'react';
+=======
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Initial Author: Lucas Butler
+//  Date: Mar 1, '24
+//  Description:    
+//      This .js file takes in a list of task objects and displays them on the page
+//
+////////////////////////////////////////////////////////////////////////////////
+
+  // Questionnaire.js
+  import React, { useState, useContext} from 'react';
+>>>>>>> 5f348ef0c976cdfec439ec0c4ab9db25c151dbd2
   import './TaskDisplay.css';
   import NavbarContent from './navbar.js';
+  import UserContext from './UserContext.js';
+  import { useNavigate } from 'react-router-dom';
+  import axios from 'axios';
 
   function TaskDisplay() {
+    const { user } = useContext(UserContext); //initialize the user
+    const { setUser } = useContext(UserContext);
     let init_tasks = []; // Initialize with an empty array
     let questionnaire;
+    const navigate = useNavigate();
 
     // Check if data exists and retrieve it
     if (sessionStorage.getItem('newTasks')) { // Ensure correct key is used
@@ -37,14 +57,42 @@
     }
 
     // Task list submission
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Do whatever with selected tasks
-        console.log("Selected tasks:");
+    
+        
         selectedTasks.forEach(index => {
             console.log(init_tasks[index]);
         });
         sessionStorage.setItem("selectedTasks", JSON.stringify(selectedTasks));
+        
+        if(user){
+            try {
+                // Create a new skill object
+                const newSkill = {
+                    SkillName: 'Temp Skill Name', // Set the skill name
+                    Tasks: Array.from(selectedTasks).map(index => init_tasks[index]), // Set tasks for the skill
+                };
+                
+                // Send the new skill object to the server
+                const response = await axios.post("http://localhost:4000/api/add-skill", { email: user.email, skill: newSkill });
+    
+                // Check if the request was successful
+                if (response && response.data) {
+                    const updatedUser = response.data;
+                    console.log(response.data)
+                    setUser(updatedUser);
+                    
+                    navigate('/');
+                } else {
+                    console.error("Error creating skill:", response.data.message);
+                }
+            } catch (error) {
+                console.error("Error creating skill:", error.message);
+            }
+        } else{
+            navigate('/login');
+        }
     };
 
     return (
@@ -53,7 +101,7 @@
             <h1>Your Goal-Oriented Tasks</h1>
             <form onSubmit={handleSubmit}>
                 <div className="TaskDisplay">
-                    <button type="submit">Submit Selected Tasks</button>
+                <button type="submit">{user ? 'Submit Selected Tasks' : 'Login to Submit'}</button>
                     <ul>
                         {init_tasks.map((task, index) => (
                             <li key={index}>

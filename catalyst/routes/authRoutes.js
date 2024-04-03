@@ -50,7 +50,7 @@ router.post('/login', async (req, res) => {
 
     try {
         // Find the user in the database by email
-        let user = await User.findOne({ email });
+        let user = await User.findOne({ email }).populate('Skills');
         
 
         // If the user is not found, return an error
@@ -69,13 +69,15 @@ router.post('/login', async (req, res) => {
         // If the credentials are valid, create a JSON Web Token (JWT) for authentication
         const payload = {
             user: {
-                id: user.id
+                username: user.username,
+                email: user.email,
+                skills: user.Skills
             }
         };
 
         jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '5h' }, (err, token) => {
             if (err) throw err;
-            res.json({ token });
+            res.json({ token, username: user.username, email:user.email, skills:user.Skills}); // Include the username in the response
         });
 
     } catch (err) {
@@ -83,5 +85,49 @@ router.post('/login', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
+
+
+router.post('/add-skill', async (req, res) => {
+    const { email, skill } = req.body; // Extract the email and skill information from the request body
+    
+    try {
+
+        // Find the user by email
+        let user = await User.findOne({ email });
+
+        
+        // Initialize the Skills array if it's undefined
+        if(!user.Skills)
+        {
+           user.Skills = []; 
+        }
+        
+        
+
+        // Add the new skill to the user's skills array
+        user.Skills.push(skill);
+        
+        // Save the updated user object
+        await user.save();
+               // Respond with the updated user object in the desired format
+               const payload = {
+                user: {
+                    username: user.username,
+                    email: user.email,
+                    skills: user.Skills
+                }
+            };
+    
+            jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '5h' }, (err, token) => {
+                if (err) throw err;
+                res.json({ token, username: user.username, email: user.email, skills: user.Skills });
+            });
+    } catch (error) {
+        console.error('Error adding skill to user:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+});
+
 
 export default router;

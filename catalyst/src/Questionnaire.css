@@ -1,22 +1,5 @@
 /* Questionnaire.css */
 
-/* General styling for the homepage */
-.Homepage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  min-width: 100vw;
-  background-color: #f4f7f6;
-  color: #333;
-  font-family: 'Arial', sans-serif;
-}
-
-.Welcome h1, .Welcome h3 {
-  text-align: center;
-  color: #2a9d8f;
-}
 
 /* Styling for the questionnaire container */
 .Questionnaire {

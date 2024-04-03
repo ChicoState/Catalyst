@@ -1,3 +1,16 @@
+<<<<<<< HEAD
+=======
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Initial Author: Lucas Butler
+//  Date: Mar 1, '24
+//  Description:
+//      This .js file takes in a questionnaire and uses prompt engineering and
+//  the gemini API to create a list of task objects for the user to complete.
+//
+////////////////////////////////////////////////////////////////////////////////
+import { UserProvider } from './UserContext.js';
+>>>>>>> 5f348ef0c976cdfec439ec0c4ab9db25c151dbd2
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import Task from './models/Task.js';
 
