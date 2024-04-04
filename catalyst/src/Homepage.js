@@ -1,15 +1,18 @@
+// Homepage.js
+
 import React, { useState, useContext } from 'react';
 import NavbarContent from './navbar.js';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import UserContext from './UserContext.js';
 import './Homepage.css';
 
 function Homepage() {
     const { user } = useContext(UserContext);
+    const navigate = useNavigate();
 
-    const handleEditSkill = (skillId) => {
-        // TODO: navigate to new edit page and edit skill and tasks
-        console.log("Editing skill with ID:", skillId);
+    const handleEditSkill = (skill) => {
+        // Navigate to new edit page with the skill object as a URL parameter
+        navigate(`/edit`, { state: { skill } });
     };
 
     return (
@@ -20,7 +23,6 @@ function Homepage() {
             </div>
             <div className='HomepageBody'>
                 {user ? (
-                    // If user is signed in, display welcome message and user information
                     <div>
                         <h3>Welcome, {user.username}!</h3>
                         {user.skills && user.skills.length > 0 ? (
@@ -28,7 +30,6 @@ function Homepage() {
                                 {user.skills.map(skill => (
                                     <div key={skill._id} className="skill">
                                         <strong>{skill.SkillName}</strong>
-
                                         {skill.Tasks && skill.Tasks.length > 0 ? (
                                             <ul className="tasks-column">
                                                 {skill.Tasks.map(task => (
@@ -38,22 +39,18 @@ function Homepage() {
                                         ) : (
                                             <div>No tasks found for this skill.</div>
                                         )}
-                                    <button onClick={() => handleEditSkill(skill._id)} className="delete-button">Edit</button>
-
+                                        <button onClick={() => handleEditSkill(skill)} className="delete-button">Edit</button>
                                     </div>
-
                                 ))}
-                                
                             </div>
                         ) : (
                             <div>
-                                <h3>You don't have any skills yet.</h3>
+                                <h3>You don't have any skills yet. Take our questionnaire to create one!</h3>
                                 <Link to="/Questionnaire" className="link">Take Questionnaire</Link>
                             </div>
                         )}
                     </div>
                 ) : (
-                    // If user is not signed in
                     <div>
                         <h3>This is where you will see the skills you want to improve. Take our questionnaire to create a new one!</h3>
                         <Link to="/Questionnaire" className="link">Take Questionnaire</Link>
