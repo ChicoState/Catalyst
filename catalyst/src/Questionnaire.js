@@ -1,9 +1,9 @@
-// Questionnaire.js
 import React, { useState } from 'react';
 import './Questionnaire.css';
 import { useNavigate } from 'react-router-dom';
 import createPlan from './gemini.js';
 import NavbarContent from './navbar.js';
+
 
 function Questionnaire() {
   const navigate = useNavigate();
@@ -59,6 +59,7 @@ function Questionnaire() {
   
     // Construct the filled_questionnaire object directly
     const filled_questionnaire = {};
+
     questions.forEach((question, index) => {
       filled_questionnaire[index] = responses[index] || [question.questionText, ''];
     });
@@ -70,27 +71,27 @@ function Questionnaire() {
       setErrorMessage('Please enter a description for the skill.');
       return;
     }
-  
 
     // Display the loading message
     setLoading(true);
   
     try { 
-    // Construct a new Skill object with the responses
-    const taskList = await createPlan(responses, 7);
+      // Construct a new Skill object with the responses
+      const taskList = await createPlan(responses, 3);
+      console.log(filled_questionnaire)
+      // Save the taskList to sessionStorage
+      sessionStorage.setItem('skillInfo', JSON.stringify(filled_questionnaire));
+      sessionStorage.setItem('taskList', JSON.stringify(taskList));
 
-    // Save the taskList to sessionStorage
-    sessionStorage.setItem('taskList', JSON.stringify(taskList));
-
-    // Navigate to the next page
-    navigate('/display-tasks');
-    } catch (error) {
-      // Handle any errors that might occur during processing
-      console.error('Error during processing:', error);
-    } finally {
-      // Hide the loading overlay regardless of success or failure
-      setLoading(false);
-    }
+      // Navigate to the next page
+      navigate('/display-tasks');
+      } catch (error) {
+        // Handle any errors that might occur during processing
+        console.error('Error during processing:', error);
+      } finally {
+        // Hide the loading overlay regardless of success or failure
+        setLoading(false);
+      }
   };
   
   return (

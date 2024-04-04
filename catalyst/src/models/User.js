@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Skill from './Skill.js';
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -14,21 +15,17 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    takenQuestionnaire: {
-        type: Boolean,
-        default: false,
-    },
     actualName: {
         type: String,
         default: "",
     },
-    skill: {
-        type: String,
-        default: "",
-    },
-    time: {
-        type: Number,  // Corrected to "Number" from "Int"
-        default: 0,
+    Skills:{
+        type: [Skill.schema],
+        default:undefined
+    }, 
+    Description: {
+      type: String,
+      default: ''
     }
 });
 

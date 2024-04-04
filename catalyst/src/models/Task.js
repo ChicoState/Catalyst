@@ -1,19 +1,32 @@
-class Task {
-    constructor() {
-      this.TaskName = "";
-      this.TimeInfo = "";
-    }
-  
-    // Function to return a JSON representation of the class variables
-    toJSON() {
-      return JSON.stringify({ TaskName: this.TaskName, TimeInfo: this.TimeInfo });
-    }
-  
-    // Function to update the class variables
-    update(taskName, timeInfo) {
-      this.TaskName = taskName;
-      this.TimeInfo = timeInfo;
+import mongoose from 'mongoose';
+
+// Define the Task schema
+const taskSchema = new mongoose.Schema({
+  TaskName: {
+    type: String,
+    required: true,
+    default: ''
+  },
+  Description: {
+    type: String,
+    required: true,
+    default: ''
+  },
+  TimeInfo: {
+    type: String,
+    required: true,
+    default: ''
+  }
+}, {      // Modify the way the toJSON function returns the object for generation
+  toJSON: {
+    transform: function(doc, ret){
+      delete ret._id
+      return ret
     }
   }
+});
+
+// Create a model from the schema
+const Task = mongoose.model('Task', taskSchema);
 
 export default Task;
