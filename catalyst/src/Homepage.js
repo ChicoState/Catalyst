@@ -7,6 +7,10 @@ import './Homepage.css';
 function Homepage() {
     const { user } = useContext(UserContext);
 
+    const handleEditSkill = (skillId) => {
+        // TODO: navigate to new edit page and edit skill and tasks
+        console.log("Editing skill with ID:", skillId);
+    };
 
     return (
         <div className='Homepage'>
@@ -24,6 +28,7 @@ function Homepage() {
                                 {user.skills.map(skill => (
                                     <div key={skill._id} className="skill">
                                         <strong>{skill.SkillName}</strong>
+
                                         {skill.Tasks && skill.Tasks.length > 0 ? (
                                             <ul className="tasks-column">
                                                 {skill.Tasks.map(task => (
@@ -33,8 +38,12 @@ function Homepage() {
                                         ) : (
                                             <div>No tasks found for this skill.</div>
                                         )}
+                                    <button onClick={() => handleEditSkill(skill._id)} className="delete-button">Edit</button>
+
                                     </div>
+
                                 ))}
+                                
                             </div>
                         ) : (
                             <div>
@@ -46,7 +55,7 @@ function Homepage() {
                 ) : (
                     // If user is not signed in
                     <div>
-                        <h3>This is where you will see the skills you want to improve.</h3>
+                        <h3>This is where you will see the skills you want to improve. Take our questionnaire to create a new one!</h3>
                         <Link to="/Questionnaire" className="link">Take Questionnaire</Link>
                     </div>
                 )}

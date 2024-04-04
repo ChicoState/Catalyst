@@ -23,3 +23,13 @@
 .tasks-column li {
   margin-bottom: 10px;
 }
+
+.delete-button {
+  width: auto; /* Adjust button width as needed */
+  align-self: flex-start; /* Align button to the top of the skill container */
+}
+
+.link {
+  text-align: center;
+  color: blue;
+}
