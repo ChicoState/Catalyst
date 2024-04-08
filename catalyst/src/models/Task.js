@@ -9,12 +9,10 @@ const taskSchema = new mongoose.Schema({
   },
   Description: {
     type: String,
-    required: true,
     default: ''
   },
   TimeInfo: {
     type: String,
-    required: true,
     default: ''
   }
 }, {      // Modify the way the toJSON function returns the object for generation

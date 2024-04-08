@@ -1,7 +1,7 @@
 import Questionnaire from './Questionnaire.js';
 import Login from './Login.js';
 import TaskDisplay from './TaskDisplay.js';
-
+import Edit from './Edit.js';
 import Homepage from './Homepage.js';
 import './App.css';
 import { UserProvider } from './UserContext.js';
@@ -15,6 +15,8 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/display-tasks" element={<TaskDisplay />} />
                 <Route path="/Questionnaire" element={<Questionnaire />} />
+                <Route path="/edit" element={<Edit />} />
+                
             </Routes>
         </UserProvider>
     )

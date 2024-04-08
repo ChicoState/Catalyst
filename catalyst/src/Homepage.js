@@ -1,15 +1,20 @@
-import React, { useState, useContext} from 'react';
+// Homepage.js
+
+import React, { useState, useContext } from 'react';
 import NavbarContent from './navbar.js';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import UserContext from './UserContext.js';
 import './Homepage.css';
 
 function Homepage() {
     const { user } = useContext(UserContext);
+    const navigate = useNavigate();
 
-    if(user){
-        console.log(user.skills);
-    }
+    const handleEditSkill = (skill) => {
+        // Navigate to new edit page with the skill object as a URL parameter
+        navigate(`/edit`, { state: { skill } });
+    };
+
     return (
         <div className='Homepage'>
             <NavbarContent />
@@ -18,42 +23,36 @@ function Homepage() {
             </div>
             <div className='HomepageBody'>
                 {user ? (
-                    // If user is signed in, display welcome message and user information
                     <div>
                         <h3>Welcome, {user.username}!</h3>
                         {user.skills && user.skills.length > 0 ? (
-                            <div>
-                                <h4>Your Skills:</h4>
-                                <ul>
-                                    {user.skills.map(skill => (
-                                        <li key={skill._id}>
-                                            <div>
-                                                <strong>{skill.SkillName}</strong>
-                                            </div>
-                                            {skill.Tasks && skill.Tasks.length > 0 ? (
-                                                <ul>
-                                                    {skill.Tasks.map(task => (
-                                                        <li key={task._id}>{task.TaskName}</li>
-                                                    ))}
-                                                </ul>
-                                            ) : (
-                                                <div>No tasks found for this skill.</div>
-                                            )}
-                                        </li>
-                                    ))}
-                                </ul>
+                            <div className="skills-container">
+                                {user.skills.map(skill => (
+                                    <div key={skill._id} className="skill">
+                                        <strong>{skill.SkillName}</strong>
+                                        {skill.Tasks && skill.Tasks.length > 0 ? (
+                                            <ul className="tasks-column">
+                                                {skill.Tasks.map(task => (
+                                                    <li key={task._id}>{task.TaskName}</li>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <div>No tasks found for this skill.</div>
+                                        )}
+                                        <button onClick={() => handleEditSkill(skill)} className="delete-button">Edit</button>
+                                    </div>
+                                ))}
                             </div>
                         ) : (
                             <div>
-                                <h3>You don't have any skills yet.</h3>
+                                <h3>You don't have any skills yet. Take our questionnaire to create one!</h3>
                                 <Link to="/Questionnaire" className="link">Take Questionnaire</Link>
                             </div>
                         )}
                     </div>
                 ) : (
-                    // If user is not signed in
                     <div>
-                        <h3>This is where you will see the skills you want to improve.</h3>
+                        <h3>This is where you will see the skills you want to improve. Take our questionnaire to create a new one!</h3>
                         <Link to="/Questionnaire" className="link">Take Questionnaire</Link>
                     </div>
                 )}
