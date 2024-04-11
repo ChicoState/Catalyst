@@ -11,6 +11,8 @@ function Edit() {
     const skill = location.state?.skill || {}; // Use optional chaining to prevent errors if skill is undefined
     const [skillName, setSkillName] = useState(skill.SkillName || '');
     const [tasks, setTasks] = useState(skill.Tasks || []);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [editMode, setEditMode] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -36,7 +38,7 @@ function Edit() {
     };
 
     const addTaskField = () => {
-        setTasks([...tasks, { TaskName: '' }]); 
+        setTasks([...tasks, { TaskName: '' }]);
     };
 
     const removeTaskField = (index) => {
@@ -45,11 +47,15 @@ function Edit() {
         setTasks(newTasks);
     };
 
-    const deleteSkill = async () => {
+    const deleteSkill = () => {
+        setShowConfirmation(true);
+    };
+
+    const confirmDelete = async () => {
         try {
             const response = await axios.post("http://localhost:4000/api/delete-skill", {
                 email: user.email,
-                skillId: skill._id 
+                skillId: skill._id
             });
 
             if (response && response.data) {
@@ -64,7 +70,11 @@ function Edit() {
         }
     };
 
-    const saveTask = async () => {
+    const cancelDelete = () => {
+        setShowConfirmation(false);
+    };
+
+    const saveChanges = async () => {
         try {
             const formattedTasks = tasks.map(task => ({ TaskName: task.TaskName }));
             const response = await axios.post("http://localhost:4000/api/edit-skill", {
@@ -75,17 +85,17 @@ function Edit() {
                     Tasks: formattedTasks
                 }
             });
-            
 
             if (response && response.data) {
                 const updatedUser = response.data;
                 setUser(updatedUser);
+                setEditMode(false);
                 navigate('/');
             } else {
-                console.error("Error saving task:", response.data.message);
+                console.error("Error saving changes:", response.data.message);
             }
         } catch (error) {
-            console.error("Error saving task:", error.message);
+            console.error("Error saving changes:", error.message);
         }
     };
 
@@ -102,8 +112,22 @@ function Edit() {
                     type="text"
                     value={skillName}
                     onChange={handleNameChange}
+                    disabled={!editMode}
                 />
+                {!editMode && (
+                    <button onClick={() => setEditMode(true)}>Edit</button>
+                )}
+                {editMode && (
+                    <button onClick={saveChanges}>Save</button>
+                )}
                 <button onClick={deleteSkill}>Delete Skill</button>
+                {showConfirmation && (
+                    <div className="confirmation-modal">
+                        <p>Are you sure you want to delete this skill?</p>
+                        <button onClick={confirmDelete}>Yes</button>
+                        <button onClick={cancelDelete}>No</button>
+                    </div>
+                )}
                 <h3>Tasks:</h3>
                 {tasks.map((task, index) => (
                     <div key={index}>
@@ -111,12 +135,16 @@ function Edit() {
                             type="text"
                             value={task.TaskName}
                             onChange={(event) => handleTaskChange(index, event)}
+                            disabled={!editMode}
                         />
-                        <button onClick={() => removeTaskField(index)}>Remove Task</button>
+                        {editMode && (
+                            <button onClick={() => removeTaskField(index)}>Remove Task</button>
+                        )}
                     </div>
                 ))}
-                <button onClick={addTaskField}>Add Task</button>
-                <button onClick={saveTask}>Save Task</button>
+                {editMode && (
+                    <button onClick={addTaskField}>Add Task</button>
+                )}
             </div>
         </div>
     );
