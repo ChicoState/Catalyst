@@ -1,0 +1,47 @@
+/* styles.css */
+
+
+  
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: lightblue;
+    width: 100vw;
+    height: 5em;
+    z-index: 1000; 
+}
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background-color: lightblue;
+    height: 50%; /* Make the ul take up 100% height of the nav */
+    align-items: center; /* Vertically center the content within the ul */
+    width: 100%;
+  }
+  
+  li {
+    display: flex;
+    flex-direction: column; /* Arrange the content vertically */
+    justify-content: center; /* Vertically center the content within the li */
+    margin-right: 20px; /* Adjust margin for better spacing */
+    text-align: center; /* Center text within each li element */
+    margin-top: 50px;
+  }
+  
+  a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    display: block; /* Ensure each link is displayed as a block element */
+    padding: 10px;
+  }
+  
+  /* Left-align the li elements */
+  li:first-child {
+    margin-left: 20px;
+  }
+  

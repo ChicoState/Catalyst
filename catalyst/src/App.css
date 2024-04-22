@@ -3,40 +3,13 @@ body{
    color: rgba(228, 228, 228, 0.986);
 }
 
-.Homepage{
-  display: flex;
+div{
+  max-width: 100vw;
+  max-height: 100vh;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
-.WelcomeHeader{
-  display: flex;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.Questionnaire{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-size: x-large;
-}
-
-
-.Welcome{
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  padding-left: 3em;
-  padding-right: 3em;
-}
-
-.App-link {
-  color: #61dafb;
-}
 
 .ButtonContainer{
   display: flex;
@@ -45,11 +18,6 @@ body{
   margin-top: 5em;
   position: relative;
   margin-bottom: 50vh;
-}
-.SubmitButton{
-  background-color:  rgb(162, 162, 247);
-  width: 150px;
-  height: 75px;
 }
 
 .ButtonText{

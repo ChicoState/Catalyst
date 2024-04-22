@@ -1,0 +1,86 @@
+ 
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    color: #333;
+    justify-content: center;
+    /* align-items: center;*/
+    background-color: white;
+  }
+
+  form {
+    height: fit-content;
+  }
+
+  h1 {
+    margin-left: 50px;
+    margin-bottom: 60px; /* Creates a gap between the h1 and TaskDisplay */
+  }
+  
+  .TaskDisplay {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    height: fit-content;
+    width: 100%;
+    max-width: 100%;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .TaskDisplay ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .TaskDisplay li {
+    background-color: #f4f7f6;
+    border-radius: 4px;
+    padding: 20px;
+    margin: 10px 0;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth transition for hover effect */
+    cursor: pointer; /* Indicates the item is interactive */
+  }
+  
+  .TaskDisplay li:hover {
+    transform: scale(1.05); /* Makes the item pop out */
+    background-color: #e2e6e5; /* Darkens the background slightly */
+  }
+  
+  
+  .TaskDisplay li:nth-child(odd) {
+    background-color: #eef5f3;
+  }
+  
+  .TaskDisplay li strong {
+    color: #2a9d8f;
+    font-size: 1.2em; /* Makes task name larger than description */
+  margin-bottom: 5px; /* Spacing between task name and description */
+  }
+
+  /* styles.css */
+
+.buttonSelected {
+  background-color: #ba290c; /* Green */
+  color: white;
+  /* Add more styles as needed */
+}
+
+.buttonNotSelected {
+  background-color: #00ba88; /* Blue */
+  color: white;
+  /* Add more styles as needed */
+}
+
+
+  .desc {
+    font-size: 0.9em; /* Keeps the description text smaller than the task name */
+  }

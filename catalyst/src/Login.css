@@ -1,0 +1,18 @@
+.Homepage{
+    display: flex;
+  }
+  
+.WelcomeHeader{
+    display: flex;
+    height: 40vmin;
+    pointer-events: none;
+  }
+.SubmitButton{
+    background-color:  rgb(162, 162, 247);
+    width: 150px;
+    height: 75px;
+  }
+
+
+
+  
