@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
 import NavbarContent from './navbar.js';
 import { useLocation, useNavigate } from 'react-router-dom';
 import UserContext from './UserContext.js';
@@ -8,7 +8,7 @@ import './Homepage.css';
 function Edit() {
     const location = useLocation();
     const { user, setUser } = useContext(UserContext);
-    const skill = location.state?.skill || {}; // Use optional chaining to prevent errors if skill is undefined
+    const skill = useMemo(() => location.state?.skill || {}, [location.state]); // Use optional chaining to prevent errors if skill is undefined
     const [skillName, setSkillName] = useState(skill.SkillName || '');
     const [tasks, setTasks] = useState(skill.Tasks || []);
     const [showConfirmation, setShowConfirmation] = useState(false);

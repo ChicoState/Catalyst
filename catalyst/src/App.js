@@ -1,3 +1,4 @@
+import React from 'react';
 import Questionnaire from './Questionnaire.js';
 import Login from './Login.js';
 import TaskDisplay from './TaskDisplay.js';
@@ -10,14 +11,13 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 function App() {
     return (
         <UserProvider>
-            <Routes>
-                <Route path="/" element={<Homepage />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/display-tasks" element={<TaskDisplay />} />
-                <Route path="/Questionnaire" element={<Questionnaire />} />
-                <Route path="/edit" element={<Edit />} />
-                
-            </Routes>
+                <Routes>
+                    <Route path="/" element={<Homepage />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/display-tasks" element={<TaskDisplay />} />
+                    <Route path="/Questionnaire" element={<Questionnaire />} />
+                    <Route path="/edit" element={<Edit />} />
+                </Routes>
         </UserProvider>
     )
 }

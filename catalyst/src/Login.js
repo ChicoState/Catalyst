@@ -3,7 +3,7 @@ import axios from 'axios';
 import './App.css';
 import './Login.css';
 import UserContext from './UserContext.js';
-import { useNavigate, Routes, Route} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import NavbarContent from './navbar.js';
 
 function Login() {

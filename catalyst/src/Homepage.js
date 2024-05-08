@@ -1,6 +1,6 @@
 // Homepage.js
 
-import React, { useState, useContext } from 'react';
+import React, {  useContext } from 'react';
 import NavbarContent from './navbar.js';
 import { useNavigate, Link } from 'react-router-dom';
 import UserContext from './UserContext.js';
