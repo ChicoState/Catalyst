@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import createPlan from './gemini.js';
 import NavbarContent from './navbar.js';
 
-
 function Questionnaire() {
   const navigate = useNavigate();
 
-  // Define your question configuration
+  // State to store the skill name
+  const [skillName, setSkillName] = useState('');
+
+  
   const questions = [
     {
       type: 'text',
@@ -40,7 +42,6 @@ function Questionnaire() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-
   const handleChange = (index, questionText, value) => {
     // Clear any previous error message when the user starts typing
     setErrorMessage('');
@@ -51,6 +52,10 @@ function Questionnaire() {
       newResponses[index] = [questionText, value || ''];
       return newResponses;
     });
+  };
+
+  const handleSkillNameChange = (value) => {
+    setSkillName(value);
   };
   
   const handleButtonClick = async () => {
@@ -72,26 +77,33 @@ function Questionnaire() {
       return;
     }
 
+    // Set the skill name
+    handleSkillNameChange(skillTextFieldValue[1].trim());
+
     // Display the loading message
     setLoading(true);
   
     try { 
       // Construct a new Skill object with the responses
       const taskList = await createPlan(responses, 3);
-      console.log(filled_questionnaire)
+      console.log(filled_questionnaire);
+      console.log("Skill name:", skillName);
       // Save the taskList to sessionStorage
+      sessionStorage.setItem('skillName', JSON.stringify(skillName));
       sessionStorage.setItem('skillInfo', JSON.stringify(filled_questionnaire));
       sessionStorage.setItem('taskList', JSON.stringify(taskList));
-
+      
+      
       // Navigate to the next page
-      navigate('/display-tasks');
-      } catch (error) {
-        // Handle any errors that might occur during processing
-        console.error('Error during processing:', error);
-      } finally {
-        // Hide the loading overlay regardless of success or failure
-        setLoading(false);
-      }
+      navigate(`/display-tasks`);
+    } catch (error) {
+      // Handle any errors that might occur during processing
+      console.error('Error during processing:', error);
+      setErrorMessage('Task generation failed. Please try again.');
+    } finally {
+      // Hide the loading overlay regardless of success or failure
+      setLoading(false);
+    }
   };
   
   return (
@@ -102,45 +114,51 @@ function Questionnaire() {
         <h3>Please tell us about your goals.</h3>
       </div>
   
-    <div className="Questionnaire">
+      <div className="Questionnaire">
       {questions.map((question, index) => (
-        <div className="Question" key={index}>
-          <p>{question.questionText}</p>
-          {question.type === 'text' ? (
-            <div>
-              <input
-                type="text"
-                value={responses[index] ? responses[index][1] : ''}
-                onChange={(e) => handleChange(index, question.questionText, e.target.value)}
-              />
-              {errorMessage && question.questionText === 'Describe the skill you would like to pursue:' && (
-                <div className="error-message">{errorMessage}</div>
-              )}
-            </div>
-          ) : (
-            <select
-              value={responses[index] ? responses[index][1] : ''}
-              onChange={(e) => handleChange(index, question.questionText, e.target.value)}
-            >
-              <option value="" disabled>
-                Select...
-              </option>
-              {question.options.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          )}
-        </div>
-      ))}
-      <button onClick={handleButtonClick}>Continue</button>
-    </div>
-  {loading && (
-    <div id="loading-overlay">
-      <div id="loading-message">Processing, please wait...</div>
-    </div>
-      )}
+  <div className="Question" key={index}>
+    <p>{question.questionText}</p>
+    {question.type === 'text' ? (
+      <div>
+        <input
+          type="text"
+          value={responses[index] ? responses[index][1] : ''}
+          onChange={(e) => {
+            handleChange(index, question.questionText, e.target.value);
+            if (index === 0) {
+              handleSkillNameChange(e.target.value);
+            }
+          }}
+        />
+      </div>
+    ) : (
+      <select
+        value={responses[index] ? responses[index][1] : ''}
+        onChange={(e) => handleChange(index, question.questionText, e.target.value)}
+      >
+        <option value="" disabled>
+          Select...
+        </option>
+        {question.options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    )}
+  </div>
+))}
+
+        <button onClick={handleButtonClick}>Continue</button>
+        {errorMessage && (
+          <div className="error-message">{errorMessage}</div>
+        )}
+        {loading && (
+          <div id="loading-overlay">
+            <div id="loading-message">Processing, please wait...</div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
