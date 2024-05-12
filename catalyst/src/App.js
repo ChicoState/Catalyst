@@ -1,3 +1,4 @@
+import React from 'react';
 import Questionnaire from './Questionnaire.js';
 import Login from './Login.js';
 import TaskDisplay from './TaskDisplay.js';

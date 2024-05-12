@@ -23,10 +23,7 @@ const userSchema = new mongoose.Schema({
         type: [Skill.schema],
         default:undefined
     }, 
-    Description: {
-      type: String,
-      default: ''
-    }
+
 });
 
 const User = mongoose.model('User', userSchema);
