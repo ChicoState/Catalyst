@@ -28,12 +28,12 @@
     "eject": "react-scripts eject"
   },
   "jest": {
-    "transform" : {
-	"^.+\\.(js|jsx)$": "babel-jest"	  
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest"
     },
-"moduleNameMapper": {
-	"\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
-},
+    "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
     "testEnvironment": "node"
   },
   "eslintConfig": {
