@@ -1,9 +1,9 @@
-import React, { useState, useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import './App.css';
 import './Login.css';
 import UserContext from './UserContext.js';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import NavbarContent from './navbar.js';
 
 function Login() {
@@ -37,8 +37,19 @@ function Login() {
         setPasswordLogin(event.target.value);
     };
 
+    const validateEmail = (email) => {
+        // Regular expression to validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     const handleRegisterButtonClick = async () => {
         try {
+            if (!validateEmail(emailReg)) {
+                setRegistrationMessage('Please enter a valid email address.');
+                return;
+            }
+
             const response = await axios.post("http://localhost:4000/api/register", {
                 username: usernameReg,
                 email: emailReg,
