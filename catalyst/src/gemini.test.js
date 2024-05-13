@@ -1,38 +1,59 @@
 import validate_questionnaire_format from './gemini';
 import validate_task_format from './gemini';
 import createPlan from './gemini';
+import Questionnaire from './Questionnaire';
 
 //TESTS THE VALIDATE_QUESTIONAIRRE FORMAT FUNCTION
 test('null input', () => {
-    boolean format = validate_questionnaire_format(null);
+    const questionnaire = null;
+    boolean format = validate_questionnaire_format(questionnaire);
     expect (format.toBe (false));
 });
 
 test('empty input', () => {
-  boolean format = validate_questionnaire_format("");
+  const questionnaire = "";
+  boolean format = validate_questionnaire_format(questionnaire);
   expect (format.toBe (false));
 });
 
-test('array input', () => {
-  const sample_array = {1,2,3,4,5};
-  boolean  format = validate_questionnaire_format(sample_array);
+test('array size 5 input', () => {
+  const questionnaire = { 0:['1','2','3','4','5']};
+  boolean  format = validate_questionnaire_format(questionnaire);
   expect(format.toBe(false));
 });
 
-test('string over size two', () => {
-  const str = "Hello World";
+test('string input', () => {
+  const questionnaire = "Hello World";
+  boolean format = validate_questionnaire_format(questionnaire);
+  expect(format.toBe(false));
+});
+
+test('array size one', () => {
+  const questionnaire = {0:['1']};
   boolean format = validate_questionnaire_format(str);
   expect(format.toBe(false));
 });
 
-test('string size one', () => {
-  const str = "Z";
+test('array size two', () => {
+  const str = {0:['1','2']};
   boolean format = validate_questionnaire_format(str);
-  expect(format.toBe(false));
+  expect(format.toBe(true));
 });
 
-test('string size two', () => {
-  const str = "Hi";
+test('array size one and two', () => {
+  const str = {
+    0:['Q1','Q2']
+    1:['Q1']
+  };
+  boolean format = validate_questionnaire_format(str);
+  expect(format.toBe(true));
+});
+
+test('array size two and two', () => {
+  const str = {
+    0:['Q1','Q2']
+    1:['Q1','Q2']
+  };
   boolean format = validate_questionnaire_format(str);
   expect(format.toBe(true));
 });
