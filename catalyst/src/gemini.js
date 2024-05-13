@@ -8,14 +8,13 @@
 //  the gemini API to create a list of task objects for the user to complete.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { UserProvider } from './UserContext.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import Task from './models/Task.js';
 
 // Access your API key as an environment variable (see "Set up your API key" above)
 const genAI = new GoogleGenerativeAI(process.env.REACT_APP_API_KEY);
 
-function validate_questionnaire_format(obj) {
+export function validate_questionnaire_format(obj) {
   if (typeof obj !== 'object' || obj == null) {
     return false;
   }
@@ -34,7 +33,7 @@ function validate_questionnaire_format(obj) {
   return true;
 }
 
-function validate_task_format(obj1, obj2) {
+export function validate_task_format(obj1, obj2) {
   
   if (typeof obj1 !== 'object' || typeof obj2 !== 'object'|| obj1 == null || obj2 == null) return false; // Check if either is not an object or is null
 
