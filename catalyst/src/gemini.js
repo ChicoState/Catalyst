@@ -14,7 +14,7 @@ import Task from './models/Task.js';
 // Access your API key as an environment variable (see "Set up your API key" above)
 const genAI = new GoogleGenerativeAI(process.env.REACT_APP_API_KEY);
 
-function validate_questionnaire_format(obj) {
+export function validate_questionnaire_format(obj) {
   if (typeof obj !== 'object' || obj == null) {
     return false;
   }
@@ -33,7 +33,7 @@ function validate_questionnaire_format(obj) {
   return true;
 }
 
-function validate_task_format(obj1, obj2) {
+export function validate_task_format(obj1, obj2) {
   
   if (typeof obj1 !== 'object' || typeof obj2 !== 'object'|| obj1 == null || obj2 == null) return false; // Check if either is not an object or is null
 
@@ -56,12 +56,14 @@ async function createPlan(filled_questionnaire, num_items, existingTasks = []) {
 
   // Check if the passed task list is of the correct type
   if (existingTasks.length > 0 && existingTasks.every(task => validate_task_format(task, task_example))) {
-    console.error("Task list not in valid format.")
+    console.log("Task list not in valid format.");
+    return;
   }
 
   // We expect a dictionary with indexes at the key and the values an array of strings of size 2
   if (!validate_questionnaire_format(filled_questionnaire)) {
-    console.error("Object passed to gemini is not of a valid format.");
+      console.log("Object passed to gemini is not of a valid format.");
+      return;
   }
 
   // Create the string for the questionnaire
