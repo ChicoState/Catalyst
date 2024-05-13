@@ -1,19 +1,31 @@
-// TaskDisplay.js
 import React, { useState, useContext } from 'react';
 import './TaskDisplay.css';
 import NavbarContent from './navbar.js';
 import UserContext from './UserContext.js';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 
 function TaskDisplay() {
   const { user, setUser } = useContext(UserContext);
-  let init_tasks = [];
-  let questionnaire;
   const navigate = useNavigate();
+  
+  
+  
+  
+
 
   // Check if data exists and retrieve it
+  let init_tasks = [];
+  let questionnaire;
+  let skillName = "";
+
+  if (sessionStorage.getItem('skillName')) {
+    skillName = JSON.parse(sessionStorage.getItem('skillName'));
+  } else {
+    console.error("Skill name not found...");
+  }
+
   if (sessionStorage.getItem('taskList')) {
     init_tasks = JSON.parse(sessionStorage.getItem('taskList'));
   } else {
@@ -51,18 +63,19 @@ function TaskDisplay() {
     });
     sessionStorage.setItem("selectedTasks", JSON.stringify(selectedTasks));
     
-
     if (user) {
       try {
+
+    
         // Create a new skill object
         const newSkill = {
-          SkillName: 'Temp Skill Name',
+          SkillName: skillName,
           Tasks: Array.from(selectedTasks).map(index => init_tasks[index])
         };
-
+    
         // Send the new skill object to the server
         const response = await axios.post("http://localhost:4000/api/add-skill", { email: user.email, skill: newSkill });
-
+    
         // Check if the request was successful
         if (response && response.data) {
           const updatedUser = response.data;
@@ -82,7 +95,7 @@ function TaskDisplay() {
   return (
     <div>
       <NavbarContent />
-      <h1>Your Goal-Oriented Tasks</h1>
+      <h1>Your Goal-Oriented Tasks for {skillName}</h1>
       <form onSubmit={handleSubmit}>
         <div className="TaskDisplay">
           <button type="submit">{user ? 'Submit Selected Tasks' : 'Login to Submit'}</button>

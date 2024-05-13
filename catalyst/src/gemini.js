@@ -8,7 +8,6 @@
 //  the gemini API to create a list of task objects for the user to complete.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { UserProvider } from './UserContext.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import Task from './models/Task.js';
 
