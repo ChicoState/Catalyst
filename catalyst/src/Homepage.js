@@ -18,10 +18,8 @@ function Homepage() {
     return (
         <div className='Homepage'>
             <NavbarContent />
-            <div className='Welcome'>
-                <h1>Catalyst</h1>
-            </div>
             <div className='HomepageBody'>
+                <h1 className='Title'>Catalyst</h1>
                 {user ? (
                     <div>
                         <h3>Welcome, {user.username}!</h3>
@@ -51,7 +49,7 @@ function Homepage() {
                         )}
                     </div>
                 ) : (
-                    <div>
+                    <div className='Homepageintro'>
                         <h3>This is where you will see the skills you want to improve. Take our questionnaire to create a new one!</h3>
                         <Link to="/Questionnaire" className="link">Take Questionnaire</Link>
                     </div>
