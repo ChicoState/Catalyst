@@ -8,8 +8,12 @@
     left: 0;
     background-color: lightblue;
     width: 100vw;
-    height: 5em;
+    /* height: 5em; */
     z-index: 1000; 
+    padding-bottom: 1.5vh;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: end;
 }
 
   ul {
@@ -20,7 +24,9 @@
     background-color: lightblue;
     height: 50%; /* Make the ul take up 100% height of the nav */
     align-items: center; /* Vertically center the content within the ul */
-    width: 100%;
+    width: fit-content;
+    
+    
   }
   
   li {
@@ -29,11 +35,13 @@
     justify-content: center; /* Vertically center the content within the li */
     margin-right: 20px; /* Adjust margin for better spacing */
     text-align: center; /* Center text within each li element */
-    margin-top: 50px;
+    margin-top: 40px;
+    padding-bottom: 10px;
   }
   
   a {
     text-decoration: none;
+    font-size: 20px;
     color: black;
     font-weight: bold;
     display: block; /* Ensure each link is displayed as a block element */
