@@ -1,0 +1,59 @@
+body{
+    background-color: #343b49;
+    color: rgba(228, 228, 228, 0.986);
+}
+
+.Profilepage{
+    display: flex;
+}
+
+.Username{
+    display: flex;
+    font-size: x-large;
+    justify-content: center;
+}
+
+.Directory{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    font-size: x-large;
+}
+
+.UserDetails{
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    padding-left: 3em;
+    padding-right: 3em;
+}
+
+
+.UserGoal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: large;
+}
+
+
+.DirectoryText{
+    color: rgba(228, 228, 228, 0.986);
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    font-size: small;
+}
+
+.SignOutText{
+    color: rgba(255, 0, 0, 0.986);
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    font-size: small;
+}
