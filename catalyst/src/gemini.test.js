@@ -101,6 +101,3 @@ test('both objects', () => {
   boolean format = validate_task_format(Object,Object);
   expect(format.toBe(false));
 });
-
-
-//TESTS THE CREATE PLAN FUNCTION
