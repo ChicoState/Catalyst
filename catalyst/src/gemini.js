@@ -56,12 +56,14 @@ async function createPlan(filled_questionnaire, num_items, existingTasks = []) {
 
   // Check if the passed task list is of the correct type
   if (existingTasks.length > 0 && existingTasks.every(task => validate_task_format(task, task_example))) {
-    console.error("Task list not in valid format.")
+    console.log("Task list not in valid format.");
+    return;
   }
 
   // We expect a dictionary with indexes at the key and the values an array of strings of size 2
   if (!validate_questionnaire_format(filled_questionnaire)) {
-    console.error("Object passed to gemini is not of a valid format.");
+      console.log("Object passed to gemini is not of a valid format.");
+      return;
   }
 
   // Create the string for the questionnaire
