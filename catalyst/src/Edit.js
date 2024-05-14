@@ -76,7 +76,14 @@ function Edit() {
 
     const saveChanges = async () => {
         try {
-            const formattedTasks = tasks.map(task => ({ TaskName: task.TaskName }));
+            
+            const nonEmptyTasks = tasks.filter(task => task.TaskName.trim() !== "");
+        
+            // Map non-empty tasks to formattedTasks
+            const formattedTasks = nonEmptyTasks.map(task => {
+                console.log("Task Name:", task.TaskName);
+                return { TaskName: task.TaskName };
+            });
             const response = await axios.post("http://localhost:4000/api/edit-skill", {
                 email: user.email,
                 editedSkill: {
