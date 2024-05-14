@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import './TaskDisplay.css';
 import NavbarContent from './navbar.js';
 import UserContext from './UserContext.js';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -10,11 +10,6 @@ function TaskDisplay() {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   
-  
-  
-  
-
-
   // Check if data exists and retrieve it
   let init_tasks = [];
   let questionnaire;
