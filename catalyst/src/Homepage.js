@@ -25,21 +25,21 @@ function Homepage() {
                         <h3>Welcome, {user.username}!</h3>
                         {user.skills && user.skills.length > 0 ? (
                             <div className="skills-container">
-                                {user.skills.map(skill => (
-                                    <div key={skill._id} className="skill">
-                                        <strong>{skill.SkillName}</strong>
-                                        {skill.Tasks && skill.Tasks.length > 0 ? (
-                                            <ul className="tasks-column">
-                                                {skill.Tasks.map(task => (
-                                                    <li key={task._id}>{task.TaskName}</li>
-                                                ))}
-                                            </ul>
-                                        ) : (
-                                            <div>No tasks found for this skill.</div>
-                                        )}
-                                        <button onClick={() => handleEditSkill(skill)} className="delete-button">Edit</button>
-                                    </div>
-                                ))}
+                            {user.skills.map(skill => (
+                                <div key={skill._id} className="skill">
+                                    <strong>{skill.SkillName}</strong>
+                                    {skill.Tasks && skill.Tasks.length > 0 ? (
+                                        <ul className="tasks-column">
+                                            {skill.Tasks.map((task, index) => (
+                                                <li key={`${skill._id}-${index}`}>{task.TaskName}</li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <div>No tasks found for this skill.</div>
+                                    )}
+                                    <button onClick={() => handleEditSkill(skill)} className="delete-button">Edit</button>
+                                </div>
+                            ))}
                             </div>
                         ) : (
                             <div>
