@@ -1,17 +1,7 @@
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Initial Author: Lucas Butler
-//  Date: Mar 1, '24
-//  Description:
-//      This .js file takes in a questionnaire and uses prompt engineering and
-//  the gemini API to create a list of task objects for the user to complete.
-//
-////////////////////////////////////////////////////////////////////////////////
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import Task from './models/Task.js';
 
-// Access your API key as an environment variable (see "Set up your API key" above)
+// Retrieve API key from environment
 const genAI = new GoogleGenerativeAI(process.env.REACT_APP_API_KEY);
 
 export function validate_questionnaire_format(obj) {
